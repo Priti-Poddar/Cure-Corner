@@ -1,0 +1,59 @@
+ <% layout("/layouts/boilerplate") %>
+
+<div class="box offset-1" style="background-color: rgb(245, 245, 245)">
+    <div class="enquiry">
+        <div class="enquiry-div">
+            <a href="/myAcc" class="enquiry-div-link">
+               <span><i class="fa-regular fa-user"></i>&nbsp;&nbsp;
+                Manage Profile</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="enquiry-div">
+            <a href="/muOrders" class="enquiry-div-link">
+               <span><i class="fa-solid fa-basket-shopping"></i>&nbsp;&nbsp;
+                My Orders</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="enquiry-div">
+            <a href="/myPayments" class="enquiry-div-link">
+               <span><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i>&nbsp;&nbsp;
+                My Payments</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+                <div class="enquiry-div">
+            <a href="/address" class="enquiry-div-link">
+               <span><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;
+                Address Book</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+                <div class="enquiry-div">
+            <a href="/help" class="enquiry-div-link">
+               <span><i class="fa-solid fa-circle-question"></i>&nbsp;&nbsp;
+                Need Help</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+                <div class="enquiry-div">
+            <a href="/logout" class="enquiry-div-link">
+               <span><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;&nbsp;
+                Logout</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="result">
+            <div class="myDetails">
+                <span><i class="fa-regular fa-user fa-2xl" ></i>&nbsp;&nbsp;
+            <%= currUser.username %></span>
+            <p>20/04/2005</p>
+            </div>
+        <div><button class="btn btn-primary" style="width: 250px; margin-left: 30%;">ADD NEW PROFILE</button></div>
+    
+    </div>
+
+</div>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CureCorner</title>
+    <link rel="stylesheet" href="/CSS/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="sticky-top">
+<nav class="navbar navbar-expand bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"><i class="fa-sharp fa-solid fa-prescription"></i></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="address"   href="/">Delivery Address</a>
+        </div>
+        <div class="d-flex">
+            <!-- Cart -->
+            <!-- Cart -->
+           <a class="text-reset me-5 position-relative" href="/cart">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#5f6368"
+            >
+              <path
+                d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+              />
+            </svg>
+            <% if(session.cart) { %>
+            <span
+              class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
+              ><%= session.cart.totalQty %></span
+            >
+             <% } else { %>
+              <span
+              class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
+              >0</span
+            >  
+            <% } %>
+          </a> 
+      
+            <!-- Login -->
+              <% if(!currUser) { %>
+            <a class="text-reset me-4 position-relative" href="/login">
+              <button type="button" class="btn btn-outline-danger " style="transform: scale(1.2);">Login <i class="fa-regular fa-circle-user "></i> </button>
+            </a>
+        <% } %><% if(currUser){ %>
+          <a class="text-reset me-2 position-relative"  href="/myAcc">
+              <i class="fa-solid fa-user fa-xl"></i>
+          </a>
+          
+          <% } %>
+            </div>
+    
+    </div>
+  </div>
+</nav>
+<div class="searchBox " >
+<div class="form-outline mt-4" >
+  <form action="/search" method="POST"  style="display: flex; margin-right: 2rem; align-items: center; width: 80%;">
+    <input type="text" name="query" class="search-inp" placeholder="Search Medicines, Brand And More">
+    <button type="submit" class="btn" style="background-color: #3fbfda; color: #fff; height: 3rem;">Search</button>
+  </form>
+  <form action="/search/close" method="POST"><button type="submit"><i class="fa-solid fa-xmark fa-xl" style="color:#000;"></i></button></form>
+</div>
+  
+<%if(query){ %>
+<div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-1" style="margin:auto; margin-top: 1.5rem;width: 90%;">
+      <!--akta row te joto collum ache large screen e 3 e kore asbe-->
+      <% for(let medicine of allmedicines){ %>
+      <a href="/medicines/<%= medicine._id %>" class="medicine-link" >
+        <div class="card col " style="width: 12rem;">
+          <img src= "<%= medicine.image %>" class="card-img-top"
+          alt="https://bsmedia.business-standard.com/_media/bs/img/article/2023-07/12/full/1689175810-294.jpg?im=FitAndFill=(826,465)"
+          style="height: 18rem; border-radius: 0;" />
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= medicine.drugName %></b>
+              <br />
+              &#8377; <%= medicine.price.toLocaleString("en-IN") %><br>
+              <form action="/cart/<%= medicine._id %>" method="get">
+                    <input type="hidden" name="productId" value="<%= medicine._id %>">
+                    <input type="hidden" name="quantity" value="1">
+              <button class="btn" type="submit" style="background-color: #3fbfda; color: white;">Add</button>
+                </form>
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+<% }%><%if(!query){ %>
+<div class="row" style="margin: auto; margin-top: 1.5rem; width: 90%;">
+  <div class="trending" >
+    <h5>Trending Searches</h5>
+    <a><button class="btn-trending" >Horlicks</button></a>
+    <a><button class="btn-trending">Pediasure</button></a>
+    <a><button class="btn-trending">Minimalist</button></a>
+    <a><button class="btn-trending">Nivea</button></a>
+    <a><button class="btn-trending">Ensure</button></a>
+    
+  </div>
+  </div>
+  <% }%>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</body>
+</html>

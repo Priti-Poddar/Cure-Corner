@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Doctors</title>
+</head>
+<body>
+  <h1>Manage Doctors</h1>
+  <a href="/doctors/add">Add Doctor</a>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Specialization</th>
+      <th>experience</th>
+      <th>fees</th>
+      <th>Available Slots</th>
+    </tr>
+    <% doctors.forEach(doctor => { %>
+      <tr>
+        <td><%= doctor.userId.username %></td>
+        <td><%= doctor.specialization %></td>
+        <td><%= doctor.experience %></td>
+        <td><%= doctor.fees %></td>
+        <td><%= doctor.availableSlots.join(', ') %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>

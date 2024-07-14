@@ -1,0 +1,30 @@
+<% layout("/layouts/boilerplate") %>
+
+<p class="offset-1" style="margin-top: 1rem; margin-bottom: 0;"><%=category%></p>
+<hr class="offset-1" width="85%">
+<div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-1" style="margin:auto; margin-top: 1.5rem;width: 90%;">
+      <!--akta row te joto collum ache large screen e 3 e kore asbe-->
+      <% for(let medicine of allmedicines){ %>
+      <a href="/medicines/<%= medicine._id %>" class="medicine-link" >
+        <div class="card col " style="width: 12rem;">
+          <img src= "<%= medicine.image %>" class="card-img-top"
+          alt="https://bsmedia.business-standard.com/_media/bs/img/article/2023-07/12/full/1689175810-294.jpg?im=FitAndFill=(826,465)"
+          style="height: 18rem; border-radius: 0;" />
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= medicine.drugName %></b>
+              <br />
+              &#8377; <%= medicine.price.toLocaleString("en-IN") %><br>
+              <form action="/cart/<%= medicine._id %>" method="get">
+                    <input type="hidden" name="productId" value="<%= medicine._id %>">
+                    <input type="hidden" name="quantity" value="1">
+              <button class="btn" type="submit" style="background-color: #3fbfda; color: white;">Add</button>
+                </form>
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %>
+    </div>
+
+    <%- include("../includes/footer.ejs") %>

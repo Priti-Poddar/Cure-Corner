@@ -1,0 +1,157 @@
+
+ <% layout("/layouts/boilerplate") %>
+
+<div style="margin: auto; margin-top:0 ; display: flex; width: 80%;">
+ <div class="cart ">
+ <h3 style="margin:.8rem 1.3rem;">My Cart</h3> 
+ <%if(userAdd == null){%>
+ <div class="user-cart-info">
+        <div style="display: flex; margin-left: 1rem; align-items: center;">
+        <i class="fa-solid fa-paper-plane" ></i>
+        <%if(currUser){%>    
+        <p style="font-size: 20px;margin-top: 1rem; margin-left: 1rem;">Bill to <%= currUser.username %></p>
+        <%}%><%if(!currUser){%>
+            <p style="font-size: 15px;margin-top: 1rem; margin-left: 1rem;">Add address to unlock extra discounts and best offers.</p>
+       <%}%>
+       </div>
+       
+      <button class="open-button" onclick="openForm()">SET ADDRESS</button>
+       <!-- The form -->
+<div class="form-popup" id="myForm">
+  <form method="POST" action="/cart/reverse-geocode" class="form-container needs-validation" novalidate>
+    <button type="button" class="cancel" onclick="closeForm()"><i class="fa-solid fa-xmark" style="color:#000;"></i></button>
+    <p style="font-size: 20px;">Add address to unlock extra discounts and best offers.</p>
+
+    <label for="add" class="form-label">Address</label>
+          <input name="address[add]"
+          placeholder="Enter your address"
+          class="form-control"
+            style="border-color: gray;"
+          required
+          >
+    <button type="submit" class="btn btn-dark btn-save">Save</button>
+  </form>
+</div>
+ </div>
+        <%} else if(user && userAdd != null){%>
+          <div style="border: 1px solid rgb(190, 189, 189); border-radius: 15px;">
+        <div style="display: flex; margin-left: 1rem; align-items: center;">
+        <i class="fa-solid fa-paper-plane" ></i>
+        <%if(currUser){%>    
+        <p style="font-size: 20px;margin-top: 1rem; margin-left: 1rem;">Bill to <%= currUser.username %></p>
+        <%}%>
+       </div>
+        <div style="margin: 0 1rem;"><p><%= userAdd.location %></p></div>
+        </div>
+          <%}%>
+        
+    <!-- <hr style="width: 90%; margin: 1rem .2rem; color: rgb(14, 14, 14);"> -->
+<% if (cart != null) { %> 
+      <div class="cart-head" ><p>ITEM(S) IN YOUR CART(<%=cart.totalQty %>)</p><a href="/medicines" style="color: black; text-decoration: underline;">ADD ITEM</a></div>
+      <% for(let item of products){ %>
+          <div class="cart-prod" >
+            <a href="/medicines/<%= item._id %>" class="cart-link">
+        <div class="card-prod-main "   >
+          <img src= "<%= item.image %>" class="cart-img"
+          alt="https://bsmedia.business-standard.com/_media/bs/img/article/2023-07/12/full/1689175810-294.jpg?im=FitAndFill=(826,465)"
+           />
+          <div class="card-prod-extra" >
+            <div class="card-prod-name" >
+              <b style="font-size: 18px;"><%= item.drugName %></b> 
+              <a href="/cart/removeAll/<%=item._id%>" style="text-decoration: none; color: black;"><i class="fa-solid fa-xmark" style="color:#000;"></i></a>
+              </div>
+               </a>
+                <div class="cart-qnt">
+                <div class="qty-selector" style=" background-color: #fff; width: 5rem; height:1.5rem;display: flex; justify-content: space-between;padding: 2px;">
+                 <!-- <form id="quantityForm" method="POST" action="/update-quantity"> -->
+                <!-- </form> -->
+                 <a href="/cart/reduce/<%=item._id%>" style="text-decoration: none; color: black;"><i class="fa fa-minus-square fa-xl" aria-hidden="true"></i></a>
+                  <!-- <input type="number" id="inputQuantitySelectorSm" class="form-control" aria-live="polite" data-bs-step="counter" name="quantity" title="quantity"  min="0" max="10" step="1" data-bs-round="0" aria-label="Quantity selector"> -->
+                 <p><%=item.qty%></p>
+                  <a href="/cart/<%=item._id%>" style="text-decoration: none; color: black;"><i class="fa fa-plus-square fa-xl" aria-hidden="true"></i></a>
+                 </div>
+                &#8377; <%= item.price.toLocaleString("en-IN") * item.qty %><br>
+                </div> 
+          </div>
+        </div>
+      </div>
+       <% } %>
+        <!-- cart.reduce((total, item) => total + item.price, 0) -->
+    
+    </div> 
+ 
+  
+    <div class="checkout">
+      
+        <h4 style="margin:.8rem 1.3rem;">OFFERS & DISCOUNTS</h4>
+        
+        <div class="offerDiv" >
+          <div class="offers">
+            <div style="display: flex; margin-left: .5rem;">
+            <i class="fa-solid fa-tag fa-lg" style="margin-top: 1rem; margin-right: 1rem;"></i>
+          <h5 style=" margin-top: .3rem;">Apply Coupon</h5>
+        </div>
+          <i class="fa-solid fa-angle-right" style="align-self: center; margin-right: .5rem;"></i>
+          </div>
+          
+          <% if(!currUser) { %>
+          <p style="margin-left: 2.3rem; font-size: 14px;">Login to apply coupons</p>
+           <% } %><% if(currUser){ %>
+          <p style="margin-left: 2.3rem; font-size: 14px;">Add address to apply coupons</p>
+            <% } %>
+        </div>
+      
+      <div >
+        <h4 style="margin:.8rem 1.3rem;">CART BREAKDOWN</h4>
+        <div class="offerDiv">
+          <div class="payAmt" style="margin: .3rem .8rem; margin-top: .6rem;">
+            <p>Cart Total</p>
+              <p>&#8377;<%= cart.totalCost.toLocaleString("en-IN") %></p>
+            </div>
+        <div class="payAmt" style=" margin: 0 .8rem; ">
+          <p>Delivery Charges</p>
+          <p>&#8377;50</p>
+            </div>
+            <hr style="width: 90%; margin: auto; color: rgb(163, 162, 162);">
+            <div class="payAmt" style=" margin: 0 .8rem; margin-top: .6rem;">
+              <p>To Pay</p>
+              <p>&#8377;<%= (cart.totalCost + 50).toLocaleString("en-IN") %></p>
+            </div>
+        </div>
+      </div>
+      <div class="offerDiv " >
+        <form action="/cart/checkout" method="GET" style="display: flex; justify-content: space-between;margin:.3rem 1rem; align-items: center;">
+          <div>
+            <p style="margin-top: .2rem;">Amount to pay</p>
+            <p style="color:  #3fbfda;">&#8377;<%= (cart.totalCost + 50).toLocaleString("en-IN") %></p>
+          </div>
+          <button class="pay-btn" type="submit">PROCEED </button>
+        </form>
+      </dib>
+    </div>
+ </div>
+ <% } else { %>
+      <p>Your cart is empty.</p>
+      <% } %>
+</div>
+    <%- include("../includes/footer.ejs") %>
+ 
+
+ <script>
+  function reduceQty(id,quantity) {
+  if (quantity < 1) return;
+  document.getElementById("down") = downbtn;
+  document.getElementById("inputQuantitySelectorSm").value = quantity--;
+}
+
+
+      function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+  
+ </script>
+
