@@ -1,0 +1,3 @@
+drugName,manufacturer,image,description,consumeType,expirydate,price,sideEffects,disclaimer,category,countInStock
+Lisinopril,AstraZeneca plc,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRquzMUwap3aIcmZQhZ4FOztWQorUZSonP4wg&s,Treats high blood pressure and heart failure.,Oral,30-06-2025,40,"Dizziness, headache, fatigue.",Monitor blood pressure regularly.,blood pressure ,100
+Metformin,"Merck & Co., Inc.",https://5.imimg.com/data5/SELLER/Default/2023/8/332774949/NY/WA/ZJ/6299000/metformin-hydrochloride-tablets.jpeg,Used to control blood sugar levels in type 2 diabetes.,Oral,10-04-2025,31,"Stomach upset, diarrhea, nausea.",Follow your diet and exercise program.,Diabetes,100

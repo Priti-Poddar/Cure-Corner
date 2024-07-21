@@ -36,14 +36,14 @@
                 <p>Quantity: <%= product.qty %></p>
                 <p>Price: &#8377;<%= product.price %></p>
 
-               </div>
+            </div>
 
  </div>
  </div>
  
                <% }%>
               </div> 
-</div>
+
 <div style="margin:.4rem 1rem; margin-top: 0;">
 <p><b>Total Items:</b> <%= (orders.cart.totalQty).toLocaleString("en-IN") %> </p>
 <% if(orders.cart.totalCost < 299){ %> 
@@ -57,6 +57,7 @@
     <%}%>
      <%} %>
  </div>
+ 
 
 <%- include("../includes/footer.ejs")%>
  

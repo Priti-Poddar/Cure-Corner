@@ -2,7 +2,7 @@
 <%- include("../includes/navbar.ejs")%>
     <%- include("../includes/flash.ejs")%>
 
- <div  style="display: flex; justify-content: space-between; width: 80%;margin:auto; margin-top: 2rem;margin-bottom: 1rem;  ">
+ <div  style="display: flex; justify-content: space-between; width: 88%;margin:auto; margin-top: 2rem;margin-bottom: 1rem;  ">
   <h1>Find Doctors</h1>
   <% if(currUser && doctor!=null){ %>
     <a href="/doctors/editDoc"><button class="btn appBtn">Manage your Profile</button></a>
@@ -13,7 +13,7 @@
   <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1" style="display: flex; margin: auto; width: 90%; margin-bottom: 2rem;">
     
     <% doctors.forEach(doctor => { %>
-      <div class="indvCard" >
+      <div class="indvCard" > 
         <%if(!doctor.image.url){%> 
         <img class=" doctorImg"  src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="Docts's Image">
           <%} else {%>

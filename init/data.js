@@ -721,7 +721,7 @@ const sampleMedicins = [
     drugName: "Ademetionine",
     description:
       "Ademetionine is used for treating chronic liver disease such as intrahepatic cholestasis.",
-    consumeType: "• Oral: 400-1600 mg per day",
+    consumeType: " Oral: 400-1600 mg per day",
     sideEffects:
       "Nervous system disorders: Headache, insomnia, dizziness, nervousness",
     price: 345,

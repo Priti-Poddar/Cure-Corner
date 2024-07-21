@@ -2,9 +2,12 @@
 include("../includes/flash.ejs")%>
 
 <div style=" margin: auto; margin-top: 0; width: 80%;">
-  <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-1" style=" margin: auto; margin-top: 1rem; width: 100%;">
-    <a href="/medicines/new" class="btn btn-outline-success">
-      Add new medicine
+  <div class="row row-cols-lg-6 row-cols-md-4 row-cols-sm-1" style=" margin:2rem 1rem; width: 100%; display: flex;">
+    <a href="/medicines/new" class="btn btn-outline-success" style=" margin-right: 1rem;">
+      Add single medicine
+    </a>
+    <a href="/admin/uploadAll" class="btn btn-outline-success" style=" margin-right: 1rem;">
+      Add many medicines
     </a>
   </div>
 
@@ -44,10 +47,10 @@ include("../includes/flash.ejs")%>
 </div>
 </div>
 <hr>
-<div  style="display: flex; justify-content: space-between;">
-<div style="width: 45%; margin: 1rem 0;">
+<!-- <div  style="display: flex; justify-content: space-between;"> -->
+<!-- <div style="width: 45%; margin: 1rem 0;"> -->
   <h3>All Users</h3>
-  <table id="customers" class="allcurstomer user" style="  border: 1px solid #ddd;">
+  <table id="customers" class="allcurstomer user" style="  border: 1px solid #ddd; margin-bottom: 2rem;">
     <tr>
         <th>Username</th>
       <th>Email</th>
@@ -66,11 +69,11 @@ include("../includes/flash.ejs")%>
     <%}%>
      </table>
 
-</div>
-
-<div style="width: 45%; margin: 1rem 0;">
+<!-- </div> -->
+<hr>
+<!-- <div style="width: 45%; margin: 1rem 0;"> -->
   <h3>All Doctors</h3>
-  <table id="customers" class="allcurstomer doc" style="  border: 1px solid #ddd;">
+  <table id="customers" class="allcurstomer doc" style="  border: 1px solid #ddd; margin-bottom: 2rem;">
     <tr>
         <th>Name</th>
       <th>Specialization</th>
@@ -87,8 +90,7 @@ include("../includes/flash.ejs")%>
     <%}%>
      </table>
 
-     </div>
-</div>
+   
 <hr>
   <h3>All Payments</h3>
 <table id="customers" style="  border: 1px solid #ddd; margin-bottom: 2rem;">

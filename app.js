@@ -27,6 +27,7 @@ const searchRouter = require("./routes/search.js");
 const categoryRouter = require("./routes/category.js");
 const cartRouter = require("./routes/cart.js");
 const doctorRoutes = require("./routes/Doctors.js");
+const adminRoutes = require("./routes/adminRoute.js");
 const { isLoggedIn } = require("./middleware.js");
 const { render } = require("ejs");
 
@@ -145,6 +146,8 @@ app.use("/search", searchRouter);
 app.use("/category", categoryRouter);
 app.use("/cart", cartRouter);
 app.use("/doctors", doctorRoutes);
+app.use("/admin", adminRoutes);
+
 
 app.all("*", (req, res, next) => {
   // res.send({ cart });
