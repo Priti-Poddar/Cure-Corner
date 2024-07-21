@@ -1,10 +1,12 @@
 <% layout("/layouts/boilerplate") %>
-<%- include("../includes/navbar.ejs")%>
-<%- include("../includes/flash.ejs")%>
-
-<p class="offset-1" style="margin-top: 1rem; margin-bottom: 0;"><%=category%></p>
-<hr class="offset-1" width="85%">
-<div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-1" style="margin:auto; margin-top: 1.5rem;width: 90%;">
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+   
+    <h2 style="padding:1rem 0;margin-left: 2rem;">All Products</h2>
+    <!-- <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+    <div class="row row-cols-lg-5 row-cols-md-3 row-cols-sm-1">
       <!--akta row te joto collum ache large screen e 3 e kore asbe-->
       <% for(let medicine of allmedicines){ %>
       <a href="/medicines/<%= medicine._id %>" class="medicine-link" >
@@ -27,6 +29,11 @@
         </div>
       </a>
       <% } %>
-    </div>
+
+     
+      
+</div>
+
+
 
     <%- include("../includes/footer.ejs") %>

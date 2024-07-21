@@ -1,5 +1,6 @@
 
  <% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
 
 <div style="margin: auto; margin-top:0 ; display: flex; width: 80%;">
  <div class="cart ">
@@ -10,12 +11,8 @@
         <i class="fa-solid fa-paper-plane" ></i>
         <%if(currUser){%>    
         <p style="font-size: 20px;margin-top: 1rem; margin-left: 1rem;">Bill to <%= currUser.username %></p>
-        <%}%><%if(!currUser){%>
-            <p style="font-size: 15px;margin-top: 1rem; margin-left: 1rem;">Add address to unlock extra discounts and best offers.</p>
-       <%}%>
-       </div>
-       
-      <button class="open-button" onclick="openForm()">SET ADDRESS</button>
+        
+              <button style="margin-left: 18rem;" class="open-button" onclick="openForm()">SET ADDRESS</button>
        <!-- The form -->
 <div class="form-popup" id="myForm">
   <form method="POST" action="/cart/reverse-geocode" class="form-container needs-validation" novalidate>
@@ -32,6 +29,12 @@
     <button type="submit" class="btn btn-dark btn-save">Save</button>
   </form>
 </div>
+        <%}%><%if(!currUser){%>
+            <p style="font-size: 15px;margin-top: 1rem; margin-left: 1rem;">Please login to unlock extra discounts and best offers.</p>
+       <%}%>
+       </div>
+       
+
  </div>
         <%} else if(user && userAdd != null){%>
           <div style="border: 1px solid rgb(190, 189, 189); border-radius: 15px;">
@@ -45,7 +48,7 @@
         </div>
           <%}%>
         
-    <!-- <hr style="width: 90%; margin: 1rem .2rem; color: rgb(14, 14, 14);"> -->
+    <hr style=" margin: 1.5rem .3rem; color: rgb(14, 14, 14);">
 <% if (cart != null) { %> 
       <div class="cart-head" ><p>ITEM(S) IN YOUR CART(<%=cart.totalQty %>)</p><a href="/medicines" style="color: black; text-decoration: underline;">ADD ITEM</a></div>
       <% for(let item of products){ %>
@@ -110,12 +113,21 @@
             </div>
         <div class="payAmt" style=" margin: 0 .8rem; ">
           <p>Delivery Charges</p>
+          <% if(cart.totalCost <299) {%>
           <p>&#8377;50</p>
+           <%} else { %>
+            <p>&#8377;0</p>
+            <% }%>
             </div>
             <hr style="width: 90%; margin: auto; color: rgb(163, 162, 162);">
             <div class="payAmt" style=" margin: 0 .8rem; margin-top: .6rem;">
               <p>To Pay</p>
-              <p>&#8377;<%= (cart.totalCost + 50).toLocaleString("en-IN") %></p>
+          <% if(cart.totalCost <299) {%>
+              <p>&#8377;<%= (cart.totalCost +50 ).toLocaleString("en-IN") %></p>
+            <%} else { %>
+              <p>&#8377;<%= (cart.totalCost + 0 ).toLocaleString("en-IN") %></p>
+            <% }%>
+
             </div>
         </div>
       </div>
@@ -123,7 +135,11 @@
         <form action="/cart/checkout" method="GET" style="display: flex; justify-content: space-between;margin:.3rem 1rem; align-items: center;">
           <div>
             <p style="margin-top: .2rem;">Amount to pay</p>
-            <p style="color:  #3fbfda;">&#8377;<%= (cart.totalCost + 50).toLocaleString("en-IN") %></p>
+          <% if(cart.totalCost <299) {%>
+            <p name="amount" style="color:  #d9534f;">&#8377;<%= (cart.totalCost + 50).toLocaleString("en-IN") %></p>
+            <%} else { %>
+            <p name="amount" style="color:  #d9534f;">&#8377;<%= (cart.totalCost + 0).toLocaleString("en-IN") %></p>
+            <% }%>
           </div>
           <button class="pay-btn" type="submit">PROCEED </button>
         </form>
@@ -133,6 +149,7 @@
  <% } else { %>
       <p>Your cart is empty.</p>
       <% } %>
+</div>
 </div>
     <%- include("../includes/footer.ejs") %>
  
@@ -145,7 +162,7 @@
 }
 
 
-      function openForm() {
+      function openForm() { 
   document.getElementById("myForm").style.display = "block";
 }
 

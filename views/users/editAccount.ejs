@@ -1,0 +1,78 @@
+<% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+      <form style="width: 80%; margin: auto; margin-top: 2rem;" method="POST" action="/manageAcc?_method=PUT" novalidate class="needs-validation">
+<h3 class="mb-4">Edit your Profile</h3>
+        <div class="mb-3" >
+          <label for="username" class="form-label">Username</label>
+          <input
+            name="myAccount[username]"
+            value="<%= myAccount.username %>"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+              Please enter a Username!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input name="myAccount[email]" class="form-control" required value = <%= myAccount.email %>
+          />
+          
+          <div class="invalid-feedback">
+              Please enter an email!
+          </div>
+        </div>
+    
+      <div class="row">  
+        <div class="mb-3 col-md-4">
+          <label for="age" class="form-label">Age</label>
+          <input
+            class="form-control"
+            name="myAccount[age]"
+            value="<%= myAccount.age %>"
+            
+          />
+          
+        </div>
+        <div class="mb-3 col-md-8" >
+          <label for="gender" class="form-label">Gender</label>
+        <% if(myAccount.gender == "neither"){ %>
+          <div type="radio"  style="display: flex; border: 1px solid rgb(213, 213, 213); border-radius: 5px; padding: .3rem 0;"> 
+          <div style="margin:0 1rem; margin-top: .2rem;">
+            <input type="radio" id="male" name="myAccount[gender]" value="Male">
+            <label for="male">Male</label>
+          </div>
+          <div style="margin-right: 1rem; margin-top: .2rem;">
+            <input type="radio" id="Female" name="myAccount[gender]" value="Female">
+            <label for="Female">Female</label>
+          </div>
+          <div style="margin-right: 1rem; margin-top: .2rem;">
+            <input type="radio" id="other" name="myAccount[gender]" value="other">
+            <label for="other">Other</label>
+          </div>
+        </div>
+        <%} else { %>
+          <div style="display: flex; border: 1px solid rgb(213, 213, 213); border-radius: 5px; padding: .3rem .3rem;"><%= myAccount.gender %></div>
+          <%}%>
+        </div>
+    </div>
+        <div class="mb-3">
+          <label for="mobile" class="form-label">Mobile</label>
+          <input
+            name="myAccount[mobile]"
+            value="<%= myAccount.mobile %>"
+            type="text"
+            class="form-control"
+            required
+          />
+          
+        </div>
+        <button class="btn btn-dark edit-btn mt-3">Edit</button><br><br>
+      </form>
+
+    <%- include("../includes/footer.ejs")%>
+ 

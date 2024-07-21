@@ -1,0 +1,43 @@
+<% layout("/layouts/boilerplate") %>
+<%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+
+<div style="width: 80%; margin: 2rem auto; border: 1px solid rgb(222, 220, 220); border-radius: 15px; display: flex;" >
+        <%if(!doctor.image.url){%> 
+        <img class=" doctorImg"  src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="Docts's Image">
+          <%} else {%>
+        <img class=" doctorImg"  src="<%=doctor.image.url %>" alt="Docts's Image">
+        <% } %>
+        <form action="/doctors/<%= doctor._id %>" method="POST" novalidate class="needs-validation">
+        <div class="card-body" style="margin: 1rem; margin-top: .6rem;">
+        <h3  class="card-title" style="margin-bottom: .6rem;">Name: Dr. <%= doctor.userId.username %></h3>
+        <p class="card-text-1"><%= doctor.specialization %></p>
+        <p class="card-text-1">experience: <%= doctor.experience %> years</p>
+        <p class="card-text-1">fees: &#8377; <%= doctor.fees.toLocaleString("en-IN") %></p>
+        <!-- <p class="card-text-1">Address: <= address.location.toLocaleString("en-IN") %></p> -->
+        
+        <p style="margin-top: .3rem;">Available Slots:</p>
+        <div style="display: flex; flex-wrap: wrap;"> 
+        <%for(let i of doctor.availableSlots){%>
+            <div style="margin-right:1rem; margin-bottom: .8rem;">
+            <input type="radio" class="btn-check" id="<%=i %>" name="slot" value="<%=i %>">
+            <label class="btn btn-outline-success" for="<%=i %>"><%=i %></label> 
+            </div>
+        <%} %>
+    </div>
+    <div class="mb-4" style="width: 50%;">
+    <label for="date" class="form-label">Date </label>
+    <input type="date" id="date" name="date" class="form-control" required>
+</div>
+        <button class="btn appBtn" type="submit">Book Appointment</button>
+</form>
+</div>
+</div>
+
+
+
+
+    <%- include("../includes/footer.ejs")%>
+
+    

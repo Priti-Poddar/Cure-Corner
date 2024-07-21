@@ -1,30 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manage Doctors</title>
-</head>
-<body>
-  <h1>Manage Doctors</h1>
-  <a href="/doctors/add">Add Doctor</a>
-  <table>
-    <tr>
-      <th>Name</th>
-      <th>Specialization</th>
-      <th>experience</th>
-      <th>fees</th>
-      <th>Available Slots</th>
-    </tr>
+ <% layout("/layouts/boilerplate") %>
+<%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+ <div  style="display: flex; justify-content: space-between; width: 80%;margin:auto; margin-top: 2rem;margin-bottom: 1rem;  ">
+  <h1>Find Doctors</h1>
+  <% if(currUser && doctor!=null){ %>
+    <a href="/doctors/editDoc"><button class="btn appBtn">Manage your Profile</button></a>
+    <% } else if(currUser){ %>
+  <a href="/doctors/add"><button class="btn appBtn">Apply as a Doctor</button> </a>
+  <% }%>
+  </div>
+  <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1" style="display: flex; margin: auto; width: 90%; margin-bottom: 2rem;">
+    
     <% doctors.forEach(doctor => { %>
-      <tr>
-        <td><%= doctor.userId.username %></td>
-        <td><%= doctor.specialization %></td>
-        <td><%= doctor.experience %></td>
-        <td><%= doctor.fees %></td>
-        <td><%= doctor.availableSlots.join(', ') %></td>
-      </tr>
-    <% }) %>
-  </table>
-</body>
-</html>
+      <div class="indvCard" >
+        <%if(!doctor.image.url){%> 
+        <img class=" doctorImg"  src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=" alt="Docts's Image">
+          <%} else {%>
+        <img class=" doctorImg"  src="<%=doctor.image.url %>" alt="Docts's Image">
+        <% } %>
+        <div class="card-body" style="margin-top: .6rem;">
+        <h3  class="card-title">Name: Dr. <%= doctor.userId.username %></h3>
+        <p class="card-text-1" style=" margin-top: 1rem;"><%= doctor.specialization %></p>
+        <p class="card-text-1">experience: <%= doctor.experience %> years</p>
+        <p class="card-text-1">fees: &#8377; <%= doctor.fees.toLocaleString("en-IN") %></p>
+        <!-- <p>Available Slots: <= doctor.availableSlots.join(', ') %></p> -->
+    <a href="/doctors/<%= doctor._id %>" class="btn appBtn">Book Appointment</a>
+      </div>
+      </div>
+        <% }) %>
+    </div>
+
+
+    <%- include("../includes/footer.ejs")%>

@@ -7,7 +7,18 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  
+  age: {
+    type: Number,
+    default: "",
+  },
+  gender: {
+    type: String,
+    default: "neither",
+  },
+  mobile: {
+    type: Number,
+    default: "",
+  },
 });
 
 userSchema.plugin(passportLocalMongoose);

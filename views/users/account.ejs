@@ -1,16 +1,20 @@
  <% layout("/layouts/boilerplate") %>
-
-<div class="box offset-1" style="background-color: rgb(245, 245, 245)">
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+    <div style="width: 80%; margin: auto;">
+    <h3  style=" margin: 1.5rem auto;">My Account</h3>
+ <hr   margin: auto;">
+    <div class="box " style="margin:2rem auto;">
     <div class="enquiry">
         <div class="enquiry-div">
-            <a href="/myAcc" class="enquiry-div-link">
+            <a href="/manageAcc" class="enquiry-div-link">
                <span><i class="fa-regular fa-user"></i>&nbsp;&nbsp;
                 Manage Profile</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         </div>
         <div class="enquiry-div">
-            <a href="/muOrders" class="enquiry-div-link">
+            <a href="/myOrders" class="enquiry-div-link">
                <span><i class="fa-solid fa-basket-shopping"></i>&nbsp;&nbsp;
                 My Orders</span>
                 <i class="fa-solid fa-chevron-right"></i>
@@ -24,15 +28,22 @@
             </a>
         </div>
                 <div class="enquiry-div">
-            <a href="/address" class="enquiry-div-link">
+            <a href="/myAddress" class="enquiry-div-link">
                <span><i class="fa-solid fa-location-dot"></i>&nbsp;&nbsp;
                 Address Book</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         </div>
                 <div class="enquiry-div">
+            <a href="/myAppointments" class="enquiry-div-link">
+               <span><i class="fa-regular fa-calendar-check"></i>&nbsp;&nbsp;
+                My Appointments</span>
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </div>
+        <div class="enquiry-div">
             <a href="/help" class="enquiry-div-link">
-               <span><i class="fa-solid fa-circle-question"></i>&nbsp;&nbsp;
+               <span><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;
                 Need Help</span>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
@@ -45,15 +56,39 @@
             </a>
         </div>
     </div>
-    
-    <div class="result">
-            <div class="myDetails">
-                <span><i class="fa-regular fa-user fa-2xl" ></i>&nbsp;&nbsp;
-            <%= currUser.username %></span>
-            <p>20/04/2005</p>
-            </div>
-        <div><button class="btn btn-primary" style="width: 250px; margin-left: 30%;">ADD NEW PROFILE</button></div>
-    
-    </div>
+    <div style="width: 68%; margin-left: 1rem;">
+     <div class="myDetails">
+        <span style="margin-left: 1rem; ">
+            <i class="fa-regular fa-user fa-2xl" ></i>&nbsp;&nbsp;
+            <%= currUser.username %>
+        </span>
+           <% if(currUser.mobile != null){%>
+            <span style="margin-right: 1rem;"><i style="margin-right: .15rem;" class="fa-solid fa-phone"></i> <%= currUser.mobile %></span>
+           <% } else {%>
+            <span style="margin-right: 1rem; margin-left: 2rem;">
+                <a href="/manageAcc"><button class="btn btn-outline-danger">Add Mobile No.</button></a></span>
 
+          <% }%>
+    </div>
+        <% if(doctors){ %>
+            <!-- <h5 style="margin:1.5rem 1rem ;">Doctor Account</h5> -->
+            <div class="docDetails">
+                <img src="<%=doctors.image.url %>" alt="Docts's Image" style="width: 15rem; height: 15rem;border-radius: 50%; margin: 1rem; align-self: center;">
+            <div style="margin: 1rem;">
+            <p class="docItems" >Email: <%=doctors.userId.email %></p>
+            <p class="docItems">Specialization: <%=doctors.specialization %></p>
+            <p class="docItems">Experience: <%=doctors.experience %></p>
+            <p class="docItems">Fees: <%=doctors.fees %></p>
+            <p class="docItems">Available Slots: <%=doctors.availableSlots %></p>
+            <a href="/doctors/editDoc"><button class="btn appBtn" style="margin-left: 1rem;">Manage Doctor Profile</button></a>
+            </div>
+        </div>    
+        <% } else{ %>
+        <a href="/doctors/add"><button class="btn btn-danger" style="width: 10rem; margin:1rem 2rem;">Apply as a Doctor</button></a>
+        <% }%>
 </div>
+</div>
+</div>
+</div>
+
+    <%- include("../includes/footer.ejs")%>

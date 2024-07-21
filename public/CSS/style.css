@@ -19,21 +19,26 @@ body {
   justify-content: space-between;
  
 }
-.fa-prescription {
+
+.navbar-brand{
+  height: 3.5rem;
+  width: 3rem;
+}
+/* .fa-prescription {
   color: #e55246;
   font-size: 25px;
-  /* border: 1px solid black; */
+  /* border: 1px solid black; 
   margin-bottom: 1.5rem;
-}
+} */
 .address {
   text-decoration: none;
-  color: #3fbfda;
+  color: #EF5A6F;
   font-size: 20px;
 }
 
 .address:hover {
   text-decoration: none;
-  color: #3fbfda;
+  color: #EF5A6F;
   font-size: 20px;
 }
 
@@ -45,7 +50,7 @@ body {
 }
 .navbar-3 {
   height: 3.2rem;
-  background-color: #3fbfda;
+  background-color: #EF5A6F;
 
 }
 
@@ -58,7 +63,8 @@ body {
 .nav-link {
   color: #fff !important;
   font-size: 14px !important;
- margin-top: .4rem;
+ /* margin-top: .4rem; */
+ margin-top: .8rem;
 }
 
 
@@ -81,7 +87,7 @@ body {
 
 .nav-link-1 {
   margin-top: 0.6rem;
-  color: #3fbfda;
+  color: #EF5A6F;
   text-decoration: none;
 }
 .nav-link-1:hover {
@@ -123,7 +129,7 @@ body {
 .f-info {
   text-align: center;
   height: 8rem;
-  background-color: #4ccee8;
+  background-color: #EF5A6F;
   width: 100% !important;
   display: flex;
   flex-wrap: wrap;
@@ -405,20 +411,20 @@ button {
 
 .box {
   display: flex;
-  width: 82%;
+  
 }
 
 .enquiry {
   display: flex;
   flex-direction: column;
   height: 30rem;
-  padding-top: 10px;
+  
 }
 
 .enquiry-div {
   height: 50px;
   width: 22rem;
-  margin: 10px;
+  margin-bottom: 1.5rem;
   margin-left: 16px;
   border-radius: 10px;
   background-color: #fff;
@@ -436,26 +442,44 @@ button {
   align-items: center;
 }
 
-.result {
+.enquiry-div-link:hover{
+  text-decoration: none;
+ color: black;
+}
+
+.myDetails {
   border-radius: 15px;
-  width: 65%;
-  height: 10rem;
-  margin: 18px;
-  margin-top: 20px;
+  /* width: 95%; */
+  height: 5rem;
+  margin: 1rem;
+  font-size: 20px;
+  margin-top: 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-.myDetails {
-  margin-left: 9px;
-  margin-right: 9px;
-  font-size: 20px;
+.docDetails{
   display: flex;
-  justify-content: space-between !important;
+  /* flex-direction: column; */
+  border-radius: 15px;
+  /* width: 95%; */
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+  margin: 1.5rem 1rem;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+
 }
+
+.docItems{
+  margin-left: 1rem;
+  /* margin-top: .5rem; */
+}
+
+
 
 /* Cart page */
 
@@ -578,7 +602,7 @@ button {
 }
 
 .pay-btn{
-  background-color: #3fbfda;
+  background-color: #EF5A6F;
   color: #fff;
   width: 6rem;
   height: 3rem;
@@ -646,4 +670,106 @@ button {
 /* Add some hover effects to buttons */
 .form-container, .open-button:hover {
   opacity: 1;
+}
+
+/* Doctor page */
+
+.indvCard{
+  width: 18rem !important; 
+   border: 1px solid rgb(190, 189, 189);
+  border-radius: 15px;
+   display: flex;
+    flex-direction: column;
+     align-items: center;
+     padding: .8rem 0;
+     margin: 1rem;
+}
+
+.doctorImg{
+  width: 12rem !important;
+  height: 12rem !important;
+  border-radius: 50%;
+  margin-top: 2rem;
+  margin-left: 1rem;
+}
+
+
+.card-text-1{
+  margin: 0;
+  margin-bottom: .6rem;
+}
+
+.appBtn{
+  font-size: 15px !important;
+  background-color: #536493 !important;
+  color: #fff !important;
+}
+
+.add-btn{
+  background-color: #536493 !important;
+  border: none ;
+  color: #fff !important;
+}
+/* My appointment page */
+
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  /* border: 1px solid #ddd; */
+  padding: 8px;
+ 
+}
+
+.allcurstomer td,.allcurstomer th{
+  border: 1px solid #ddd;
+}
+
+.user th{
+  background-color:  #d9534f !important;
+}
+
+.doc th{
+  background-color:  #d9534f !important;
+}
+
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+/* #customers tr:hover {background-color: #ddd;} */
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color:  #5bc0de;
+  color: white;
+}
+
+/* Admin Page */
+.adminIndiv{
+  background-color:#5bc0de;
+   border: 1px solid rgb(190, 189, 189);
+    border-radius: 15px;
+    margin: 1rem;
+    width: 8rem;
+    height: 10rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+.count{
+  margin-top: 1rem;
+  font-size: 2.5rem;
+    color: #fff;
+}
+
+.hrDiv{
+  width: .05rem; margin-top: 2rem;margin-bottom: 1rem; background-color: rgb(190, 189, 189);
 }

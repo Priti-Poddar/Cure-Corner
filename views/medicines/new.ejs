@@ -1,0 +1,174 @@
+<% layout("/layouts/boilerplate") %> <%- include("../includes/navbar.ejs")%> <%-
+include("../includes/flash.ejs")%>
+
+  <div class="row">
+    <div class="col-8 offset-2">
+        <br><br>
+      <h3>Add New Medicine</h3>
+      <br>
+      <form method="POST" action="/medicines" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label for="drugName" class="form-label">Medicine Name</label>
+          <input
+            name="medicines[drugName]"
+            placeholder="Eg. Paracetamol"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="valid-feedback">
+              Looks good!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label" >Description</label>
+          <textarea
+            name="medicines[description]"
+            placeholder="Enter description"
+            class="form-control"
+            required
+          ></textarea>
+          <div class="invalid-feedback">
+              Please enter a description!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Add Image</label>
+          <input
+            name="medicines[image]"
+            type="text"
+            placeholder="Add Image Link"
+            class="form-control"
+            
+          />
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              name="medicines[price]"
+              placeholder="1200"
+        
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Price should be valid!
+          </div>
+          </div>
+          <div class="mb-3 col-md-8">
+            <label for="expirydate" class="form-label">Expiry Date</label>
+            <input
+              name="medicines[expirydate]"
+              type="date"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <label for="countInStock" class="form-label">Stock</label>
+            <input
+              name="medicines[countInStock]"
+              placeholder="100"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please add stock!
+          </div>
+          </div>
+          <div class="mb-3 col-md-8">
+            <label for="category" class="form-label">Category</label>
+          <select name="medicines[category]" id="category" class="form-control"  required> 
+	<option value="">Select Category</option>  
+	<option value="Baby Care">Baby Care</option>
+	<option value="Nutritional Drinks & Supplements">Nutritional Drinks & Supplements</option>
+	<option value="Women Care">Women Care</option>
+	<option value="Personal Care">Personal Care</option>
+	<option value="Ayurveda">Ayurveda</option>
+	<option value="Health Devices">Health Devices</option>
+	<option value="Antibiotics">Antibiotics</option>
+	<option value="Blood Pressure">Blood Pressure</option>
+	<option value="Diabetes">Diabetes</option>
+	<option value="Gastroesophageal">Gastroesophageal</option>
+	<option value="Depression">Depression</option>
+	<option value="Allergy">Allergy</option>
+	<option value="Pain Killer">Pain Killer</option>
+	<option value="Dermatology">Dermatology</option>
+	<option value="Dental">Dental</option>
+	<option value="Fracture">Fracture</option>
+	<option value="Other">Other</option>
+</select>
+          </div>
+<!-- <div id="div1" class="mb-3"></div> -->
+
+        </div>
+
+        
+        <div class="mb-3">
+          <label for="consumeType" class="form-label">ConsumeType</label>
+          <input
+            name="medicines[consumeType]"
+            placeholder="eg. Oral"
+            type="text"
+            class="form-control"
+          />
+          
+        </div>
+
+        <div class="mb-3">
+          <label for="manufacturer" class="form-label">Manufacturer</label>
+          <input
+            name="medicines[manufacturer]"
+            placeholder="eg. HealthTech Inc."
+            type="text"
+            class="form-control"
+          />
+          
+        </div>
+        <div class="mb-3">
+          <label for="sideEffects" class="form-label">SideEffects</label>
+          <textarea
+            name="medicines[sideEffects]"
+            placeholder="eg.Headache"
+            class="form-control"
+          ></textarea>
+          
+        </div>
+        <div class="mb-3">
+          <label for="disclaimer" class="form-label">Disclaimer</label>
+          <textarea
+            name="medicines[disclaimer]"
+            placeholder="Add a disclaimer"
+            class="form-control"
+            ></textarea>
+          
+        </div>
+        <br /><br />
+        <button class="btn add-btn">Add</button><br><br>
+      </form>
+    </div>
+  </div>
+
+  
+
+
+
+
+
+
+
+
+
+
+<%- include("../includes/footer.ejs") %>
+
+<!-- <script type="text/javascript">
+    onchange="showfield(this.options[this.selectedIndex].value)"
+function showfield(name){
+	if(name=='Other')document.getElementById('div1').innerHTML = 'Other: <input name="medicines[category]" class="form-control" />';
+	else 
+		document.getElementById('div1').innerHTML='';
+}
+</script> -->

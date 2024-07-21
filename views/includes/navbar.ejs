@@ -1,10 +1,11 @@
-
 <header class="sticky-top">
-  <nav class="navbar navbar-expand bg-body-light sticky">
+  <nav class="navbar navbar-expand bg-body-light border-bottom sticky">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/" 
-        ><i class="fa-sharp fa-solid fa-prescription"></i
-      ></a>
+      <!-- <a href="/"
+        ><img
+          class="navbar-brand"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_Crj4a0TQ0ygukVHvHY6nlXH7mEhX9aUkw&s"
+      /></a> -->
       <button
         class="navbar-toggler"
         type="button"
@@ -18,17 +19,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="address" href="/">Delivery Address</a>
+          <a class="address" href="/">DIPTI MEDICAL</a>
         </div>
-        
-          <a href="/search" style="text-decoration: none; color: black;">
-            <div class="small-search-bar" type="search">
-              <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-              <p style="margin: 1.2rem; opacity: 0.7">Search Medicines</p>
-            </div>
-            
-          </a>
-       
+
+        <a href="/search" style="text-decoration: none; color: black">
+          <div class="small-search-bar" type="search">
+            <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+            <p style="margin: 1.2rem; opacity: 0.7">Search Medicines</p>
+          </div>
+        </a>
+
         <div class="d-flex">
           <!-- Cart -->
           <a class="text-reset me-5 position-relative" href="/cart">
@@ -48,57 +48,64 @@
               class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
               ><%= session.cart.totalQty %></span
             >
-             <% } else { %>
-              <span
+            <% } else { %>
+            <span
               class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
               >0</span
-            >  
+            >
             <% } %>
           </a>
           <% if(currUser && currUser.username == "Admin"){ %>
-              <a class="text-reset me-4 position-relative" href="/adminDash">
-              <button type="button" class="btn btn-outline-success ">Admin DashBoard </button>
-            </a>
+          <a class="text-reset me-4 position-relative" href="/adminDash">
+            <button type="button" class="btn btn-outline-danger">
+              Admin DashBoard
+            </button>
+          </a>
           <% } %>
           <!-- Login -->
-             <% if(!currUser) { %>
-            <a class="text-reset me-4 position-relative" href="/login">
-              <button type="button" class="btn btn-outline-danger " style="transform: scale(1.2);">Login <i class="fa-regular fa-circle-user "></i> </button>
-            </a>
-        <% } %><% if(currUser){ %>
-          <a class="text-reset me-2 position-relative"  href="/myAcc">
-              <i class="fa-solid fa-user fa-xl"></i>
+          <% if(!currUser) { %>
+          <a class="text-reset me-4 position-relative" href="/login">
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              style="transform: scale(1.2)"
+            >
+              Login <i class="fa-regular fa-circle-user"></i>
+            </button>
           </a>
-          
-          <% } %>
+          <% } %><% if(currUser){ %>
+          <a class="text-reset me-2 position-relative" href="/myAcc">
+            <i class="fa-solid fa-user fa-xl"></i>
+          </a>
 
+          <% } %>
         </div>
       </div>
     </div>
   </nav>
   <nav class="navbar-2 navbar-expand-md bg-body-light sticky">
     <div class="navbar-nav-2">
-      <a
-        class="nav-link-1"
-        href="/"
-        >Buy Medicines</a
-      >
+      <a class="nav-link-1" href="/">Buy Medicines</a>
       <a class="nav-link-1" href="/doctors">Find Doctors</a>
       <a class="nav-link-1" href="/lab">Lab Tests</a>
       <a class="nav-link-1" href="/lab">Health Records</a>
     </div>
   </nav>
-  <nav class="navbar-3 navbar-expand-md bg-body-light border-bottom sticky-top">
-  
-      <div class="navbar-nav-3">
-        <a class="nav-link " href="/medicines"><p>Our Products</p></a>&nbsp;&nbsp;
-        <a class="nav-link" href="/category/babyCare"><p>Baby Care</p></a>&nbsp;&nbsp;
-        <a class="nav-link"  href="/category/NutritionalDrinks"><p>Nutritional Drinks & Supplements</p></a>&nbsp;&nbsp;
-        <a class="nav-link" href="/category/womenCare"><p>Women Care</p></a>&nbsp;&nbsp;
-        <a class="nav-link" href="/category/personalCare"><p>Personal Care</p></a>&nbsp;&nbsp;
-        <a class="nav-link" href="/category/Ayurveda"><p>Ayurveda</p></a>&nbsp;&nbsp;
-        <a class="nav-link" href="/"><p>Health Condition</p></a>&nbsp;&nbsp;
-
-      </div>
-</nav>
+  <nav class="navbar-3 navbar-expand-md bg-body-light  sticky-top">
+    <div class="navbar-nav-3">
+      <a class="nav-link" href="/medicines"><p>Our Products</p></a>&nbsp;&nbsp;
+      <a class="nav-link" href="/category/babyCare"><p>Baby Care</p></a
+      >&nbsp;&nbsp;
+      <a class="nav-link" href="/category/NutritionalDrinks"
+        ><p>Nutritional Drinks & Supplements</p></a
+      >&nbsp;&nbsp;
+      <a class="nav-link" href="/category/womenCare"><p>Women Care</p></a
+      >&nbsp;&nbsp;
+      <a class="nav-link" href="/category/personalCare"><p>Personal Care</p></a
+      >&nbsp;&nbsp;
+      <a class="nav-link" href="/category/Ayurveda"><p>Ayurveda</p></a
+      >&nbsp;&nbsp;
+      <a class="nav-link" href="/"><p>Health Condition</p></a>&nbsp;&nbsp;
+    </div>
+  </nav>
 </header>

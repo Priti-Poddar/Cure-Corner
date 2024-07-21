@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  
   scrollImages.addEventListener("scroll", checkScroll);
   window.addEventListener("resize", checkScroll);
   checkScroll();

@@ -1,0 +1,62 @@
+ <% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+ 
+ <div style=" width: 80%;margin: auto; margin-top: 0;"> 
+ <h3 style="margin:1.2rem;">Your Orders</h3>
+ <hr>
+ <%if(!myorders[0]){%>
+    <p style="margin: 1.2rem;">You have not ordered anything.</p>
+    <a href="/medicines" class="btn btn-dark" style=" text-decoration: none; margin:0 1.2rem;">Order Now</a>
+
+    <%}else{%>
+    <% for(let orders of myorders) {%>
+
+    <!-- <p><= orders.cart %></p> -->
+    <!-- <p><= orders.cart.items %></p>    -->
+    <div  style=" border: 1px solid rgb(190, 189, 189); border-radius: 15px; width: 100%;
+ margin: 1rem;">
+       <div style="display: flex;justify-content: space-between; margin:.2rem 1rem; margin-top: 1rem;">
+<p><b>Payment Id:</b> <%= orders.paymentId %></p>   
+    <p><%= orders.createdAt.toString().split(" ").slice(0,4).join("-") %></p>
+</div>
+    <div style="  display: flex; " class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-1">
+        <% for(let product of orders.cart.items) {%>
+            <div style="  border: 1px solid rgb(190, 189, 189); 
+ margin: 1rem;margin-left: 1.5rem; border-radius: 15px; margin-top: 0; padding-top: .6rem;">
+              <b style="font-size: 16px; margin:1.2rem; margin-top: 1rem; "><%= product.productId.drugName %></b> <br>
+ <div style=" display: flex;" >
+            <a href="/medicines/<%= product.productId._id %>" class="cart-link">
+                <img src= "<%= product.productId.image %>"  style="margin:.8rem ; width: 8rem; height: 7rem;"
+          alt="https://bsmedia.business-standard.com/_media/bs/img/article/2023-07/12/full/1689175810-294.jpg?im=FitAndFill=(826,465)"
+           />
+               </a>
+
+               <div style="margin: 2rem 1rem;">
+                <p>Quantity: <%= product.qty %></p>
+                <p>Price: &#8377;<%= product.price %></p>
+
+               </div>
+
+ </div>
+ </div>
+ 
+               <% }%>
+              </div> 
+</div>
+<div style="margin:.4rem 1rem; margin-top: 0;">
+<p><b>Total Items:</b> <%= (orders.cart.totalQty).toLocaleString("en-IN") %> </p>
+<% if(orders.cart.totalCost < 299){ %> 
+<p><b>Total Price:</b> &#8377;<%= (orders.cart.totalCost + 50).toLocaleString("en-IN") %>  </p>
+ <%}else{%>
+<p><b>Total Price:</b> &#8377;<%= (orders.cart.totalCost).toLocaleString("en-IN") %> </p>
+ <%}%>
+</div>
+</div>
+
+    <%}%>
+     <%} %>
+ </div>
+
+<%- include("../includes/footer.ejs")%>
+ 

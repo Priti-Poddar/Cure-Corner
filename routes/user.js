@@ -4,6 +4,9 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
 const UserController = require("../controllers/users.js");
+const { route } = require("./medicine.js");
+const { isLoggedIn } = require("../middleware.js");
+
 // const Medicine = require("../models/medicine.js");
 
 
@@ -24,14 +27,18 @@ router
     UserController.login
 );
   
-router.get("/adminDash", UserController.adminDashboard);
+router.get("/adminDash",isLoggedIn, UserController.adminDashboard);
 
+router.get("/myOrders",isLoggedIn, UserController.renderOrder);
 
+router.get("/myAddress",isLoggedIn, UserController.renderAddress);
 
+router.get("/myPayments",isLoggedIn, UserController.renderPayments);
 
+router.get("/manageAcc", isLoggedIn, UserController.renderEditForm)
+router.put("/manageAcc", isLoggedIn, UserController.updateUser);
 
-
-
+router.get("/myAppointments", isLoggedIn, UserController.renderAppointments);
 router.get("/logout", UserController.logout);
 
 module.exports = router;

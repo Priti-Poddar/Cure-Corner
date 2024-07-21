@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+ <div style="width: 80%; margin: auto; margin-top: 0;">  
+    <h3 style="margin: 1.2rem;">Your Appointments</h3>
+       <hr >
+
+       <%if(!doctors[0]){%>
+    <p style="margin: 1.2rem;">No Appointments yet.</p>
+    <a href="/doctors" class="btn btn-dark" style=" text-decoration: none; margin:0 1.2rem;">Book Appointment</a>
+
+    <%}else{%>
+       <div style="display: flex; margin: auto; margin-top: 0;">
+        <!-- <div style="display: flex; flex-direction: column;"> -->
+        <table id="customers" style="margin: 1rem; margin-right: 0; border: 1px solid #ddd; border-right: none;">
+    <tr>
+        <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      </tr>
+        <!-- <% for(let eachDoc of doctors){%> -->
+    <!-- <div style="display: flex;border: 1px solid rgb(190, 189, 189);"> -->
+       <tr>
+
+            <td>Dr. <%= eachDoc.username %></td>
+            <td><%= eachDoc.mobile %></td>
+            <td><%= eachDoc.email %></td>
+        <!-- </div> -->
+         </tr>
+
+        <% } %>
+        </table>
+<!-- </div> -->
+       <!-- <div style="display: flex; flex-direction: column;""> -->
+        <table id="customers" style="margin: 1rem; margin-left: 0; border: 1px solid #ddd; border-left: none;">
+    <tr>
+        <th style="margin: 1rem;">Specialization</th>
+      <th>Experience</th>
+      <th>Fees</th>
+      <th>Date</th>
+      <th>Time</th>
+      </tr>
+        <% for(let eachAppointment of myAppointment){%>
+    <!-- <div style="display: flex;  border: 1px solid rgb(190, 189, 189);"> -->
+           <tr>
+        
+            <td><%= eachAppointment.doctor.specialization %></td>
+            <td><%= eachAppointment.doctor.experience %></td>
+            <td><%= eachAppointment.doctor.fees %></td>
+            <td><%= eachAppointment.date %></td>
+            <td><%= eachAppointment.time %></td>
+    </tr>
+        <!-- </div> -->
+            <% } %>
+            </table>
+<!-- </div> -->
+         
+        
+
+
+    </div>
+    <%} %>
+
+</div>
+
+    <%- include("../includes/footer.ejs")%>

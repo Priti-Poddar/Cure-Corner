@@ -1,0 +1,145 @@
+<% layout("/layouts/boilerplate") %> <%- include("../includes/navbar.ejs")%> <%-
+include("../includes/flash.ejs")%>
+
+
+  <div class="row mt-3">
+    <div class="col-8 offset-2">
+      <br>
+      <h3>Edit Medicine</h3>
+      <br>
+      <form method="POST" action="/medicines/<%= medicine._id %>?_method=PUT" novalidate class="needs-validation">
+        <div class="mb-3">
+          <label for="drugName" class="form-label">Medicine Name</label>
+          <input
+            name="medicine[drugName]"
+            value="<%= medicine.drugName %>"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+              Please enter a name!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="medicine[description]" class="form-control" required>
+            <%= medicine.description %>
+            </textarea
+          >
+          <div class="invalid-feedback">
+              Please enter a description!
+          </div>
+        </div>
+        <div class="mb-3" style="display: flex;">
+        <div class="col-md-3">
+           Medicine Image<br>
+          <img src="<%= medicine.image %>" style="width: 8rem; height: 6rem;">
+        </div>
+        <div class="col-md-9">
+          <label for="image" class="form-label">Add New Image</label>
+          <input
+            class="form-control"
+            name="medicine[image]"
+            value="<%= medicine.image %>"
+            type="text"
+            
+          />
+        </div>
+        </div>
+      <div class="row">  
+        <div class="mb-3 col-md-3">
+          <label for="price" class="form-label">Price</label>
+          <input
+            class="form-control"
+            name="medicine[price]"
+            value="<%= medicine.price %>"
+            
+            required
+          />
+          <div class="invalid-feedback">
+              Price should be valid!
+          </div>
+        </div>
+        <div class="mb-3 col-md-9">
+          <label for="expirydate" class="form-label">Expiry Date</label>
+            <input
+              name="medicine[expirydate]"
+              type="date"
+              value="<%= medicine.expirydate %>"
+              class="form-control"
+            />
+        </div>
+    </div>
+        <div class="row">
+          <div class="mb-3 col-md-3">
+            <label for="countInStock" class="form-label">Stock</label>
+            <input
+              name="medicine[countInStock]"
+              value="<%= medicine.countInStock %>"
+              class="form-control"
+              required
+            />
+            <div class="invalid-feedback">
+              Please add stock!
+          </div>
+          </div>
+          <div class="mb-3 col-md-9">
+            <label for="category" class="form-label">Category</label>
+            <input
+              name="medicine[category]"
+              value="<%= medicine.category %>"
+              class="form-control"
+              required
+            />
+          </div>
+
+
+        </div>
+
+        
+        <div class="mb-3">
+          <label for="consumeType" class="form-label">ConsumeType</label>
+          <input
+            name="medicine[consumeType]"
+            value="<%= medicine.consumeType %>"
+            type="text"
+            class="form-control"
+          />
+          
+        </div>
+
+        <div class="mb-3">
+          <label for="manufacturer" class="form-label">Manufacturer</label>
+          <input
+            name="medicine[manufacturer]"
+            value="<%= medicine.manufacturer %>"
+            type="text"
+            class="form-control"
+          />
+          
+        </div>
+        <div class="mb-3">
+          <label for="sideEffects" class="form-label">SideEffects</label>
+          <textarea
+            name="medicine[sideEffects]"
+            class="form-control"
+          ><%= medicine.sideEffects %></textarea>
+          
+        </div>
+        <div class="mb-3">
+          <label for="disclaimer" class="form-label">Disclaimer</label>
+          <textarea
+            name="medicine[disclaimer]"
+            class="form-control"
+            ><%= medicine.disclaimer %></textarea>
+          
+        </div>
+        <button class="btn btn-dark edit-btn mt-3">Edit</button><br><br>
+      </form>
+    </div>
+  </div>
+
+
+
+<%- include("../includes/footer.ejs") %>

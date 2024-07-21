@@ -1,0 +1,97 @@
+<% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+      <br>
+      <h3>Edit your Doctor Profile</h3>
+      <br>
+      <form  method="POST" action="/doctors/<%=myDocAccount._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3" >
+          <label for="username" class="form-label">Username</label>
+          <input
+            name="myAccount[username]"
+            value="<%= myDocAccount.userId.username %>"
+            type="text"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">
+              Please enter a Username!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input name="myAccount[email]" class="form-control" required value = <%= myDocAccount.userId.email %>
+          />
+          
+          <div class="invalid-feedback">
+              Please enter an email!
+          </div>
+        </div>
+      <div class="row">  
+    
+<div class="mb-3  col-md-2">
+          Doctor's Image<br>
+          <img src="<%= originalImageUrl %>" style="height: 6rem; width: 7rem;">
+        </div>
+        <div class="mb-3  col-md-9">
+          <label for="image" class="form-label">Update Image</label>
+          <input
+            class="form-control"
+            name="myDocAccount[image]"
+            type="file"
+            
+          />
+          
+          </div>
+</div>
+        <div class="mb-3 ">
+          <label for="specialization" class="form-label">Specialization</label>
+          <input
+            class="form-control"
+            name="myDocAccount[specialization]"
+            value="<%= myDocAccount.specialization %>"
+            
+          />
+          
+        </div>
+      <div class="row">  
+        <div class="mb-3 col-md-4">
+          <label for="fees" class="form-label">Fees</label>
+          <input
+            name="myDocAccount[fees]"
+            value="<%= myDocAccount.fees %>"
+            class="form-control"
+            required
+          />
+          
+        </div>
+
+        <div class="mb-3 col-md-8">
+          <label for="experience" class="form-label">Experience</label>
+          <input
+            name="myDocAccount[experience]"
+            value="<%= myDocAccount.experience %>"
+            class="form-control"
+            required
+          />
+        </div>
+        </div>
+        <div class="mb-3">
+          <label for="availableSlots" class="form-label">Available Slots</label>
+          <input
+            name="myDocAccount[availableSlots]"
+            value="<%= myDocAccount.availableSlots %>"
+            class="form-control"
+            required
+          />
+          
+        </div>
+        <button class="btn add-btn mt-3">Edit</button><br><br>
+      </form>
+  </div>
+  </div>
+
+    <%- include("../includes/footer.ejs")%>
+ 

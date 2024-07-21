@@ -12,10 +12,14 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const Cart = require("./models/cart.js");
+const Address = require("./models/address.js");
+const Doctor = require("./models/doctorsModel.js");
 
 const medicineRouter = require("./routes/medicine.js");
 const userRouter = require("./routes/user.js");
@@ -33,12 +37,14 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 app.use(express.json());
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.engine("ejs", ejsMate);
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/curecorner";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/curecorner";
+const dbUrl = process.env.ATLASDB_URL;
 
 main()
   .then(() => {
@@ -49,11 +55,24 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("ERROR IN MONGO SESSION STORE", err);
+});
+
 const sessionOptions = {
-  secret: "mySecretKey",
+  store: store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -101,96 +120,24 @@ app.use((req, res, next) => {
 
 app.get("/", async (req, res) => {
   const allmedicines = await Medicine.find({});
-  // console.log(cart);
-  res.render("medicines/home.ejs", { allmedicines });
+ 
+    res.render("medicines/index.ejs", { allmedicines });
+
+  });
+
+
+
+app.get("/myAcc", isLoggedIn, async (req, res) => {
+  const doctors = await Doctor.findOne({ userId: req.user._id }).populate(
+    "userId"
+  );
+  // console.log(doctors);
+  res.render("users/account.ejs", { doctors });
+
+  
 });
 
-const Razorpay = require("razorpay");
-const { KEY_ID, KEY_SECRET } = process.env;
-// const mapToken = process.env.MAP_TOKEN;
 
-// const razorpayInstance = new Razorpay({
-//   key_id: KEY_ID,
-//   key_secret: KEY_SECRET,
-// });
-
-const razorpay = new Razorpay({
-  key_id: KEY_ID,
-  key_secret: KEY_SECRET,
-});
-
-
-app.post("/order", async (req, res) => {
-  const { amount } = req.body;
-  const options = {
-    amount: amount * 100, // amount in the smallest currency unit
-    currency: "INR",
-    receipt: "order_rcptid_11",
-  };
-  try {
-    const order = await razorpay.orders.create(options);
-    res.json(order);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-app.post("/cart/checkout", (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
-  const crypto = require("crypto");
-  const hmac = crypto.createHmac("sha256", KEY_SECRET);
-
-  hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  const generated_signature = hmac.digest("hex");
-
-  if (generated_signature === razorpay_signature) {
-    console.log("successfull");
-    res.json({ status: "success" });
-    // res.redirect("/myAcc");
-    // res.status(200).send("Susscessfull");
-  } else {
-    res.json({ status: "failure" });
-     res.status(400).send("Payment verification failed");
-  }
-
-});
-
-app.get("/myAcc", (req, res) => {
-  res.render("users/account.ejs");
-});
-
-// app.post("/payment", isLoggedIn, async (req, res) => {
-//    try {
-//      const amount = req.body.amount * 100;
-//      const options = {
-//        amount: amount,
-//        currency: "INR",
-//        receipt: "razorUser@gmail.com",
-//      };
-
-//      razorpayInstance.orders.create(options, (err, order) => {
-//        if (!err) {
-//          res.status(200).send({
-//            success: true,
-//            msg: "Order Created",
-//            order_id: order.id,
-//            amount: amount,
-//            key_id: RAZORPAY_ID_KEY,
-//            product_name: req.body.name,
-//            description: req.body.description,
-//            contact: "8567345632",
-//            name: "Sandeep Sharma",
-//            email: "sandeep@gmail.com",
-//          });
-//        } else {
-//          res.status(400).send({ success: false, msg: "Something went wrong!" });
-//        }
-//      });
-//    } catch (error) {
-//      console.log(error.message);
-//    }
-// });
 
 app.use("/medicines", medicineRouter);
 app.use("/", userRouter);

@@ -1,0 +1,31 @@
+ <% layout("/layouts/boilerplate") %>
+ <style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+
+<div  style=" width: 80%;margin: auto; margin-top: 0;" >
+      <!-- <p><= userAdd.user.username %></p> -->
+      <h3>Your address</h3>
+      <p><%= userAdd.location %></p>
+      <div id="map"></div>
+      
+</div>
+
+<%- include("../includes/footer.ejs")%>
+
+
+<!-- <script src="/JS/map.js"></script> -->
+
+<script>
+	mapboxgl.accessToken = mapToken;
+      console.log(mapboxgl.accessToken);
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [-74.5, 40], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        zoom: 9 // starting zoom
+    });
+</script>

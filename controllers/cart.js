@@ -1,11 +1,17 @@
 const Cart = require("../models/cart");
 const Address = require("../models/address");
 const Medicine = require("../models/medicine");
-// const User = require("../models/user");
+const Order = require("../models/order.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+const Razorpay = require("razorpay");
+const { KEY_ID, KEY_SECRET } = process.env;
 
+const razorpay = new Razorpay({
+  key_id: KEY_ID,
+  key_secret: KEY_SECRET,
+});
 
 module.exports.renderCartPage = async (req, res) => {
   try {
@@ -50,7 +56,6 @@ module.exports.renderCartPage = async (req, res) => {
         products: await productsFromCart(req.session.cart),
         userAdd: Add,
       });
-    
     
     
     } catch (err) {
@@ -122,7 +127,7 @@ module.exports.increaseItem = async (req, res) => {
         }
       req.session.cart = cart;
       // console.log(cart);
-        // req.flash("success", "Item added to the cart");
+        req.flash("success", "Item added to the cart");
         res.redirect(req.headers.referer);
     } catch (err) {
         console.log(err.message);
@@ -240,3 +245,62 @@ module.exports.checkoutForm = async (req, res) => {
   // const orders = cartItem[0].items;
   res.render("users/payment.ejs", { cartItem, Add, key: key_id });
 }
+
+module.exports.createOrders = async (req, res) => {
+  const { amount } = req.body;
+  // console.log(amount);
+  const options = {
+    amount: amount * 100, // amount in the smallest currency unit
+    currency: "INR",
+    receipt: "order_rcptid_11",
+  };
+  try {
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+
+module.exports.paymentRoute = async (req, res) => {
+  if (!req.session.cart) {
+    return res.redirect("/cart");
+  }
+  const cart = await Cart.findById(req.session.cart._id);
+  const address = await Address.findOne({ user: req.user._id });
+
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
+  const crypto = require("crypto");
+  const hmac = crypto.createHmac("sha256", KEY_SECRET);
+
+  hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+  const generated_signature = hmac.digest("hex");
+
+  if (generated_signature === razorpay_signature) {
+    const order = new Order({
+      user: req.user,
+      cart: {
+        totalQty: cart.totalQty,
+        totalCost: cart.totalCost,
+        items: cart.items,
+      },
+      address: address,
+      paymentId: razorpay_payment_id,
+    });
+    let orders = await order.save();
+    // console.log(orders);
+    await cart.save();
+    await Cart.findByIdAndDelete(cart._id);
+    req.flash("success", "Successfully purchased");
+    req.session.cart = null;
+    console.log("successfull");
+    res.redirect("/myAcc");
+    //   // res.json({ status: "success" });
+    //   // res.status(200).send("Susscessfull");
+    // });
+  } else {
+    res.json({ status: "failure" });
+    res.status(400).send("Payment verification failed");
+  }
+};

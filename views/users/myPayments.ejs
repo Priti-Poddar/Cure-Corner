@@ -1,0 +1,54 @@
+ <% layout("/layouts/boilerplate") %>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+ <% let sum=0; let price=0; let totalitem = 0 %>
+ <div style="width: 80%; margin: auto; margin-top: 0;">
+ <h3 style="margin: 1.2rem;">Your Payments</h3>
+<hr >
+ <%if(!myorders[0]){%>
+    <p style="margin: 1.2rem;">You have not ordered anything.</p>
+    <a href="/medicines" class="btn btn-dark" style=" text-decoration: none; margin:0 1.2rem;">Order Now</a>
+
+    <%}else{%>
+        <table id="customers" style="  border: 1px solid #ddd;">
+    <tr>
+        <th>Items</th>
+      <th>Price</th>
+      <th>Payment Id</th>
+      <th>Date</th>
+
+      </tr>
+ <% for(let orders of myorders) {%>
+<!-- <div style=" margin:1rem 1rem;  padding-top: .4rem; display: flex; justify-content: space-evenly; border: 1px solid rgb(190, 189, 189); border-radius: 8px;"> -->
+<tr>
+    <td><%= (orders.cart.totalQty).toLocaleString("en-IN") %> </td>
+<% if(orders.cart.totalCost < 299){ %> 
+    <%  price = (orders.cart.totalCost + 50) %>
+<td> &#8377; <%= price.toLocaleString("en-IN") %>  </td>
+ <%}else{%>
+    <%  price = (orders.cart.totalCost ) %>
+<td> &#8377; <%= (price).toLocaleString("en-IN") %> </td>
+ <%}%>
+ <td> <%= orders.paymentId %></td>   
+    <td><%= orders.createdAt.toString().split(" ").slice(0,4).join("-") %></td>
+        <% sum+=price; totalitem+= orders.cart.totalQty%>
+
+<!-- </div> -->
+
+
+
+</tr>
+    <%}%>
+     </table>
+<div style="display: flex; margin: .6rem 1rem; font-size: 20px;">
+    <p><b>Total Items purchased:</b> <%= totalitem %></p>
+    <p style="margin-left: 3rem;"><b>Total money paid:</b> &#8377;<%= sum.toLocaleString("en-IN") %></p>
+
+     <%} %>
+</div>
+ </div>
+
+
+
+<%- include("../includes/footer.ejs")%>

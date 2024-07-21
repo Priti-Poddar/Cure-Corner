@@ -1,11 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const Medicine = require("../models/medicine.js");
+const Address = require("../models/address.js");
 
 
 router.get("/", async (req, res) => {
   const allmedicines = await Medicine.find({});
-  res.render("medicines/search.ejs", { allmedicines });
+  if (req.user) {
+    const userAdd = await Address.findOne({ user: req.user._id });
+      res.render("medicines/search.ejs", { allmedicines, userAdd });
+
+  } else {
+      res.render("medicines/search.ejs", { allmedicines });
+
+  }
 });
 
 router.post("/", async (req, res) => {
