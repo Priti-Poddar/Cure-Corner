@@ -6,7 +6,7 @@ const User = require("../models/user.js");
 module.exports.getDoctors = async (req, res) => {
   const doctors = await Doctor.find().populate("userId");
   if (req.user) {
-    const doctor = await Doctor.findOne({ userId: req.user.id });
+    const doctor = await Doctor.findOne({ userId: req.user._id });
     // console.log(doctor);
   res.render("doctors/index", { doctors, doctor, page: "Doctor" });
   } else {

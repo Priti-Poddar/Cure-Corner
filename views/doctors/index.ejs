@@ -4,13 +4,14 @@
     <%- include("../includes/flash.ejs")%>
 
  <div  style="display: flex; justify-content: space-between; width: 88%;margin:auto; margin-top: 2rem;margin-bottom: 1rem;  ">
-  <h1>Find Doctors</h1>
+  <h1>Find Doctors</h1> 
   <% if(currUser && doctor!=null){ %>
     <a href="/doctors/editDoc"><button class="btn appBtn">Manage your Profile</button></a>
     <% } else if(currUser){ %>
   <a href="/doctors/add"><button class="btn appBtn">Apply as a Doctor</button> </a>
   <% }%>
   </div>
+  <% if( doctors[0]){ %>
   <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1" style="display: flex; margin: auto; width: 90%; margin-bottom: 2rem;">
     
     <% doctors.forEach(doctor => { %>
@@ -31,6 +32,11 @@
       </div>
         <% }) %>
     </div>
+    <% } else { %>
+     <p style="width: 88%;margin:1rem auto;">No Doctors yet.</p>
+
+      
+       <% }%>
 
 
     <%- include("../includes/footer.ejs")%>
