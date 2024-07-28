@@ -1,11 +1,12 @@
  <% layout("/layouts/boilerplate") %>
+ <%- include("../includes/smNavBar.ejs")%>
     <%- include("../includes/navbar.ejs")%>
     <%- include("../includes/flash.ejs")%>
     <div style="width: 80%; margin: auto;">
     <h3  style=" margin: 1.5rem auto;">My Account</h3>
- <hr   margin: auto;">
+ <hr style="margin: auto;">
     <div class="box " style="margin:2rem auto;">
-    <div class="enquiry">
+    <div class="enquiry"> 
         <div class="enquiry-div">
             <a href="/manageAcc" class="enquiry-div-link">
                <span><i class="fa-regular fa-user"></i>&nbsp;&nbsp;
@@ -56,9 +57,9 @@
             </a>
         </div>
     </div>
-    <div style="width: 68%; margin-left: 1rem;">
+    <div class="details" >
      <div class="myDetails">
-        <span style="margin-left: 1rem; ">
+        <span class="userName" >
             <i class="fa-regular fa-user fa-2xl" ></i>&nbsp;&nbsp;
             <%= currUser.username %>
         </span>
@@ -73,13 +74,13 @@
         <% if(doctors){ %>
             <!-- <h5 style="margin:1.5rem 1rem ;">Doctor Account</h5> -->
             <div class="docDetails">
-                <img src="<%=doctors.image.url %>" alt="Docts's Image" style="width: 15rem; height: 15rem;border-radius: 50%; margin: 1rem; align-self: center;">
+                <img src="<%=doctors.image.url %>" alt="Docts's Image" class="docImg" >
             <div style="margin: 1rem;">
             <p class="docItems" >Email: <%=doctors.userId.email %></p>
             <p class="docItems">Specialization: <%=doctors.specialization %></p>
             <p class="docItems">Experience: <%=doctors.experience %></p>
             <p class="docItems">Fees: <%=doctors.fees %></p>
-            <p class="docItems">Available Slots: <%=doctors.availableSlots %></p>
+            <p class="docItems" >Available Slots: <%=doctors.availableSlots %></p>
             <a href="/doctors/editDoc"><button class="btn appBtn" style="margin-left: 1rem;">Manage Doctor Profile</button></a>
             </div>
         </div>    

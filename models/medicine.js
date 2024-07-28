@@ -25,12 +25,13 @@ const medicineSchema = new Schema({
     type: String,
     // required: true,
   },
-  price: { type:Number, required:true },
+  price: { type: Number, required: true },
   sideEffects: String,
   disclaimer: String,
   category: {
     type: String,
-    required: true,
+    default: "Other",
+    set: (v) => (v === "" ? "Other" : v),
   },
   countInStock: {
     type: Number,

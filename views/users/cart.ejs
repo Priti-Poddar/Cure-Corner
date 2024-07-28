@@ -1,8 +1,10 @@
 
  <% layout("/layouts/boilerplate") %>
     <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/smNavBar.ejs")%>
+<%- include("../includes/flash.ejs")%>
 
-<div style="margin: auto; margin-top:0 ; display: flex; width: 80%;">
+<div id="cartOuter">
  <div class="cart ">
  <h3 style="margin:.8rem 1.3rem;">My Cart</h3> 
  <%if(userAdd == null){%>
@@ -92,7 +94,7 @@
           <div class="offers">
             <div style="display: flex; margin-left: .5rem;">
             <i class="fa-solid fa-tag fa-lg" style="margin-top: 1rem; margin-right: 1rem;"></i>
-          <h5 style=" margin-top: .3rem;">Apply Coupon</h5>
+          <h5 style=" margin: .3rem 0; ">Apply Coupon</h5>
         </div>
           <i class="fa-solid fa-angle-right" style="align-self: center; margin-right: .5rem;"></i>
           </div>

@@ -66,6 +66,7 @@ module.exports.adminDashboard = async (req, res) => {
     ordersCount,
     medicinesCount,
     appointmentCount,
+    page: "Admin",
   });
 };
 
@@ -75,7 +76,7 @@ module.exports.renderEditForm = async (req, res) => {
   const myAccount = await User.findOne(req.user._id);
   // console.log(myAccount);
   
-  res.render("users/editAccount.ejs", { myAccount  });
+  res.render("users/editAccount.ejs", { myAccount, page: "User" });
 };
 
 module.exports.updateUser = async (req, res) => {
@@ -93,9 +94,8 @@ module.exports.renderOrder = async (req, res) => {
   });
     // const userAdd = await Address.findOne({ user: req.user._id });
   // console.log(myorders);    
-  res.render("users/myOrders.ejs", { myorders });
+  res.render("users/myOrders.ejs", { myorders, page: "User" });
 
-  
 }
 
 module.exports.renderAppointments = async (req, res) => {
@@ -110,7 +110,11 @@ module.exports.renderAppointments = async (req, res) => {
     doctors.push(myAccount);
   }
   // res.send({ myAppointment, doctors });
-  res.render("users/myAppointments.ejs", { myAppointment, doctors });
+  res.render("users/myAppointments.ejs", {
+    myAppointment,
+    doctors,
+    page: "User",
+  });
 };
 
 module.exports.renderPayments = async (req, res) => {
@@ -119,7 +123,7 @@ module.exports.renderPayments = async (req, res) => {
   );
   // const userAdd = await Address.findOne({ user: req.user._id });
   // console.log(myorders);
-  res.render("users/myPayments.ejs", { myorders });
+  res.render("users/myPayments.ejs", { myorders, page: "User" });
 };
 
 module.exports.renderAddress = async (req, res) => {
@@ -135,7 +139,7 @@ module.exports.renderAddress = async (req, res) => {
   //   .send();  
   // let geo = response.body.features[0].geometry.coordinates;
   // console.log(userAdd.geometry.coordinates);
-  res.render("users/myAddress.ejs", { userAdd, mapToken });
+  res.render("users/myAddress.ejs", { userAdd, mapToken, page: "User" });
 };
 
 module.exports.logout = (req, res, next) => {

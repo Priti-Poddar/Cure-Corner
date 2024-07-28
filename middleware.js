@@ -29,6 +29,7 @@ module.exports.isAdmin = async (req, res, next) => {
   next();
 };
 
+
 module.exports.validateMedicine = (req, res, next) => {
   let { error } = medicineSchema.validate(req.body);
 

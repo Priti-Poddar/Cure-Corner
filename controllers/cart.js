@@ -34,6 +34,7 @@ module.exports.renderCartPage = async (req, res) => {
           cart: cart_user,
           products: await productsFromCart(cart_user),
           userAdd: Add,
+          page: "Cart",
         });
       }
 
@@ -45,6 +46,7 @@ module.exports.renderCartPage = async (req, res) => {
         cart: null,
         products: null,
         userAdd: Add,
+        page: "Cart",
       });
     }
     // otherwise, load the session's cart
@@ -55,6 +57,7 @@ module.exports.renderCartPage = async (req, res) => {
         cart: req.session.cart,
         products: await productsFromCart(req.session.cart),
         userAdd: Add,
+        page: "Cart",
       });
     
     
@@ -134,6 +137,7 @@ module.exports.increaseItem = async (req, res) => {
         res.redirect("/medicines");
     }
 };
+
 
 
 module.exports.decreaseItem = async function (req, res, next) {
@@ -234,16 +238,17 @@ module.exports.saveAddressPage = async (req, res) => {
   res.redirect("/cart");
 };
 
+
 const key_id = process.env.KEY_ID;
 
 module.exports.checkoutForm = async (req, res) => {
-  const cartItem = await Cart.findById(req.session.cart._id).populate("user");
-
+  const cartItem = await Cart.findById(req.session.cart._id).populate({path: "items.productId"}).populate("user");
+  const items = cartItem.items;
   const Add = await Address.findOne({ user: req.user._id });
 
-  // console.log(cartItem[0].item);
+  // console.log(items);
   // const orders = cartItem[0].items;
-  res.render("users/payment.ejs", { cartItem, Add, key: key_id });
+  res.render("users/payment.ejs", { cartItem, Add, key: key_id,items, page: "Payment" });
 }
 
 module.exports.createOrders = async (req, res) => {
@@ -295,12 +300,9 @@ module.exports.paymentRoute = async (req, res) => {
     req.flash("success", "Successfully purchased");
     req.session.cart = null;
     console.log("successfull");
-    res.redirect("/myAcc");
-    //   // res.json({ status: "success" });
-    //   // res.status(200).send("Susscessfull");
-    // });
+      res.json({ status: "success" });
+    
   } else {
     res.json({ status: "failure" });
-    res.status(400).send("Payment verification failed");
   }
 };

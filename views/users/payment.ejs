@@ -1,15 +1,8 @@
-   <!DOCTYPE html>
-<html lang="en">
-   <head>
-    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_Crj4a0TQ0ygukVHvHY6nlXH7mEhX9aUkw&s">
-    <title>CureCorner</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-</head>
-<body>
+<% layout("/layouts/boilerplate") %>
+ 
     <%- include("../includes/flash.ejs")%>
-<div style=" width:60%;display: flex; flex-direction: column; margin: auto; margin-top: 6rem;">
+    <body>
+<div style="width: 80%;display: flex; flex-direction: column; margin: auto; margin-top: 4rem; font-family: Open Sans">
     <form id="payment-form">
     <div style="border: 1px solid rgb(190, 189, 189); margin-bottom: 1rem;border-radius: 15px;">
     <div  style="margin:1rem;display: flex; justify-content: space-between;">
@@ -18,29 +11,63 @@
     </div>
     <p style="margin: 1rem;"><%= Add.location %> </p>
         </div>
-    <div style="border: 1px solid rgb(190, 189, 189); border-radius: 15px;">
-    <h3 style="margin: 1rem;">Your order Subtotal</h3>
-    <h4 style="margin: 1rem;">Total Items: <%= cartItem.totalQty %></h4>
-          <% if(cartItem.totalCost <299) {%>
-    <h4 style="margin: 1rem;" name="amount">Total: <%= (cartItem.totalCost+50).toLocaleString("en-IN") %></h4>
+    <div style="border: 1px solid rgb(190, 189, 189); border-radius: 15px; margin-bottom: 2rem;">
+        <!-- <div class="Orders row row-cols-lg-4 row-cols-md-3 row-cols-sm-1"  style="margin-top: 1rem;" > -->
+    <h3 style="margin: 1rem;  margin-left:2rem">Your order Subtotal</h3>
+    <table id="payment"  style="width: 90%; ">
+    <tr>
+        <th>product name</th>
+        <th>Image</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      </tr>        
+    <% for(let item of items) {%>
+        <tr>
+            <td style="border-left:1px solid rgb(190, 189, 189); "><%= item.productId.drugName %></td>
+            <td><img src= '<%= item.productId.image %>' style="height: 4rem; width: 6rem;"></td>
+                <td> <%= item.qty %></td>
+                <td style="border-right:1px solid rgb(190, 189, 189); "> &#8377;<%= item.price %></td>
+                
+        </tr>
+             <% }%>
+    </table>
+    <!-- </div> -->
+     <!-- <div style="display: flex; flex-direction: column; align-items: end; margin-right: 5rem;"> -->
+        <table id="total"  >
+    <tr >
+    <th style="background-color: #fff;">Total Items: <%= cartItem.totalQty %></th>
+        <% if(cartItem.totalCost <299) {%>
+            <th style="background-color: #fff;"  name="amount">Total: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN") %></th>
             <%} else { %>
-    <h4 style="margin: 1rem;">Total: <%= (cartItem.totalCost+0).toLocaleString("en-IN") %></h4>
+             <th style="background-color: #fff;" name="amount">Total: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN") %></th>
+        
+            <% }%>
+          
+    </tr>
+      </table>
+        
+        <div id="totalSm">
+        <h3 style="margin: 1rem;  margin-left:2rem">Total Items: <%= cartItem.totalQty %></h3>
+        <% if(cartItem.totalCost <299) {%>
+            <h3 style="margin: 1rem;  margin-left:2rem ;margin-bottom: 3rem;"  name="amount">Total: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN") %></h3>
+            <%} else { %>
+             <h3 style="margin: 1rem;  margin-left:2rem ;margin-bottom: 3rem;" name="amount">Total: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN") %></h3>
         
             <% }%>
 
+        </div>
+
     <input type="hidden" id="order_id" name="order_id">
-        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem;">Pay Now</button>
+        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay Now</button>
     </form>
 
-    <button class="btn btn-dark"><a href="/myOrders" style="text-decoration: none; color: #fff;">Go to orders</a></button>
+    
 
 </div>
 </div>
 
+    <%- include("../includes/footer.ejs")%>
 </body>
-
-<!--Inside index.html -->
-<!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
 
 <script>
 document.getElementById('pay-btn').addEventListener('click', async (e) => {
@@ -63,9 +90,11 @@ document.getElementById('pay-btn').addEventListener('click', async (e) => {
                 key: '<%= key %>',
                 amount: order.amount,
                 currency: order.currency,
-                name: 'CureCorner',
+                name: 'Dipti Medical',
                 description: 'Test Transaction',
                 order_id: order.id,
+                // callback_url: '/myOrders',
+                //  redirect: true,
                 // order_id: '12356',
                 handler: async function (response) {
                     const verifyResponse = await fetch('/cart/checkout', {
@@ -77,20 +106,26 @@ document.getElementById('pay-btn').addEventListener('click', async (e) => {
                             razorpay_signature: response.razorpay_signature
                         })
                     });
+
                     const verifyResult = await verifyResponse.json();
+                    // console.log(verifyResult.status);
                     if (verifyResult.status === 'success') {
-                        alert('Payment successful');
+                        // alert('Payment successful');
+                        window.location.href = "/myOrders";
                     } else {
-                        alert('Payment verification failed');
+                        alert('Payment failed');
+                        window.location.href = "/cart";
                     }
+                   
                 },
                 prefill: {
                     name: '<%= cartItem.user.username %>',
                     email: '<%= cartItem.user.email %>',
-                    contact: '8697684270'
+                    contact: '<%= cartItem.user.mobile %>',
+                    
                 },
                 notes: {
-                    address: 'Your address'
+                    address: '<%= Add.location %> '
                 },
                 theme: {
                     color: '#3fbfda'

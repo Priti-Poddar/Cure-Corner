@@ -1,0 +1,122 @@
+<header class="sticky-top">
+  <nav class="navbar bg-body-light border-bottom smallNav">
+  <div class="container-fluid">
+    <div class="navbar-nav">
+          <a class="address" href="/">DIPTI MEDICAL</a>
+        </div>
+    <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar"
+        aria-controls="sidebar"
+        
+      >
+      <span class="navbar-toggler-icon"></span>
+      </button>
+        
+        
+    </div>
+  </nav>
+  <!-- Sidebar Setup -->
+    <div class="offcanvas offcanvas-start" 
+         tabindex="-1" id="sidebar">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-danger">
+                Menu
+            </h5>
+            <button type="button" 
+            class="btn-close text-reset" 
+                    data-bs-dismiss="offcanvas" 
+                    aria-label="Close">
+            </button>
+        </div>
+        <div class="offcanvas-body bg-danger">
+            <ul class="navbar-nav">
+                <li>
+              <a href="/search" style="text-decoration: none; color: black">
+          <div class="searchLI"  type="search">
+            <i class="fa-solid fa-magnifying-glass fa-lg" style="margin: .5rem; margin-left: 1.2rem;"></i>
+            <p style="margin: .5rem 1.2rem; opacity: 0.7">Search Medicines</p>
+          </div>
+        </a>
+        </li>
+        <li class="nav-item" style="margin-top: 1rem;">
+          <a class="nav-link navUl text-light" href="/" >
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/doctors">
+            Find Doctors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/medicines">
+            Our Products</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/category/babyCare">
+            Baby Care</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/category/NutritionalDrinks">
+            Nutritional Drinks & Supplements
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/category/womenCare">
+            Women Care</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/category/personalCare">
+            Personal Care</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navUl text-light" href="/category/Ayurveda">Ayurveda</a>
+        </li>
+        
+    </ul>
+    </div>
+    <div class="offcanvas-header">
+            <% if(!currUser) { %>
+          <a  href="/login" >
+            <button
+              type="button"
+              class="btn btn-outline-danger"
+              style="transform: scale(1.2)"
+            >
+              Login <i class="fa-regular fa-circle-user"></i>
+            </button>
+          </a>
+          <% } %><% if(currUser){ %>
+          <a href="/myAcc">
+            <i class="fa-solid fa-user fa-2xl" style="color:#000"></i>
+          </a>
+
+          <% } %>
+
+          <a class="text-reset position-relative" href="/cart" >
+            <i class="fa-solid fa-cart-shopping fa-2xl" style="color:#000;"></i>
+            <% if(session.cart) { %>
+            <span
+              class="badge position-relative rounded-pill badge-notification bg-danger"
+              style="top:-15px; left: -18px;"><%= session.cart.totalQty %></span
+            >
+            <% } else { %>
+            <span
+              class="badge position-relative rounded-pill badge-notification bg-danger"
+              style="top:-15px; left: -18px;">0</span
+            >
+            <% } %>
+          </a>
+          <% if(currUser && currUser.username == "Admin"){ %>
+          <a class="text-reset me-4  position-relative" href="/adminDash">
+            <button type="button" class="btn btn-outline-danger">
+              Admin DashBoard
+            </button>
+          </a>
+          <% } %>
+      
+    
+    </div>
+</header>

@@ -12,14 +12,14 @@ router.get("/", async (req, res) => {
   const allmedicines = await Medicine.find({});
   if (req.user) {
     const userAdd = await Address.findOne({ user: req.user._id });
-  res.render("medicines/product.ejs", { allmedicines, userAdd });
+  res.render("medicines/product.ejs", { allmedicines, userAdd, page:"Product" });
   }else{
-    res.render("medicines/product.ejs", { allmedicines });
+    res.render("medicines/product.ejs", { allmedicines, page: "Product" });
   }
 });
   
 router.get("/new", isAdmin, (req, res) => {
-  res.render("medicines/new.ejs");
+  res.render("medicines/new.ejs", { page: "Product" });
 });
 
 router.post("/", isAdmin, async (req, res) => {
@@ -37,10 +37,10 @@ router.get("/:id", async (req, res) => {
   const medicine = await Medicine.findById(id);
   if (req.user) {
     const userAdd = await Address.findOne({ user: req.user._id });
-      res.render("medicines/show.ejs", { medicine, userAdd });
+      res.render("medicines/show.ejs", { medicine, userAdd, page: "Product" });
 
   } else {
-     res.render("medicines/show.ejs", { medicine });
+     res.render("medicines/show.ejs", { medicine, page: "Product" });
 
   }
 });
@@ -52,7 +52,7 @@ router.get("/:id/edit",isAdmin, async (req, res) => {
     req.flash("error", "Medicine you requested for does not exit");
     res.redirect("/medicines");
   }
-    res.render("medicines/edit.ejs", { medicine });
+    res.render("medicines/edit.ejs", { medicine, page: "Product" });
 });
 
 router.put("/:id", isAdmin, async (req, res) => {

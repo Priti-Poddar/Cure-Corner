@@ -6,14 +6,10 @@ const Address = require("../models/address.js");
 
 router.get("/", async (req, res) => {
   const allmedicines = await Medicine.find({});
-  if (req.user) {
-    const userAdd = await Address.findOne({ user: req.user._id });
-      res.render("medicines/search.ejs", { allmedicines, userAdd });
+  
+      res.render("medicines/search.ejs", { allmedicines, page: "Search" });
 
-  } else {
-      res.render("medicines/search.ejs", { allmedicines });
-
-  }
+  
 });
 
 router.post("/", async (req, res) => {
@@ -25,8 +21,12 @@ router.post("/", async (req, res) => {
       medicine.description.toLowerCase().includes(query) ||
       medicine.category.toLowerCase().includes(query)
   );
-  res.render("medicines/search.ejs", { allmedicines: filteredProducts });
+  res.render("medicines/search.ejs", {
+    allmedicines: filteredProducts,
+    page: "Search",
+  });
 });
+
 
 router.post("/close", async (req, res) => {
   let redirectUrl = res.locals.redirectUrl || "/";

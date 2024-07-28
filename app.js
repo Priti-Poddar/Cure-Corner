@@ -120,20 +120,17 @@ app.use((req, res, next) => {
 // let cart = [];
 
 app.get("/", async (req, res) => {
-  const allmedicines = await Medicine.find({});
- 
-    res.render("medicines/index.ejs", { allmedicines });
+  // const allmedicines = await Medicine.find({});
+ res.render("medicines/index.ejs", { page:"Home" });
 
   });
-
-
 
 app.get("/myAcc", isLoggedIn, async (req, res) => {
   const doctors = await Doctor.findOne({ userId: req.user._id }).populate(
     "userId"
   );
   // console.log(doctors);
-  res.render("users/account.ejs", { doctors });
+  res.render("users/account.ejs", { doctors, page: "User" });
 
   
 });
@@ -147,6 +144,7 @@ app.use("/category", categoryRouter);
 app.use("/cart", cartRouter);
 app.use("/doctors", doctorRoutes);
 app.use("/admin", adminRoutes);
+
 
 
 app.all("*", (req, res, next) => {

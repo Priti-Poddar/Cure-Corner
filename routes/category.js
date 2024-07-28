@@ -10,8 +10,8 @@ router.get("/babyCare", async (req, res) => {
       res.render("medicines/catagory.ejs", {
         allmedicines,
         category: "Baby Care",
+        page:"Baby"
       });
-
 });
 
 router.get("/NutritionalDrinks", async (req, res) => {
@@ -23,6 +23,7 @@ router.get("/NutritionalDrinks", async (req, res) => {
     res.render("medicines/catagory.ejs", {
       allmedicines,
       category: "Nutritional Drinks & Supplements",
+      page: "Drinks",
     });
   
   
@@ -36,6 +37,7 @@ router.get("/womenCare", async (req, res) => {
      res.render("medicines/catagory.ejs", {
        allmedicines,
        category: "Women Care",
+       page: "Women",
      });
   
  
@@ -48,6 +50,7 @@ router.get("/personalCare", async (req, res) => {
      res.render("medicines/catagory.ejs", {
        allmedicines,
        category: "Personal Care",
+       page: "Personal",
      });
   
  
@@ -60,6 +63,7 @@ router.get("/Ayurveda", async (req, res) => {
       res.render("medicines/catagory.ejs", {
         allmedicines,
         category: "Ayurveda",
+        page: "Ayurveda",
       });
 
   
@@ -72,6 +76,7 @@ router.get("/healthDevices", async (req, res) => {
     res.render("medicines/catagory.ejs", {
       allmedicines,
       category: "Health Devices",
+      page: "Devices",
     });
   
   

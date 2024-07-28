@@ -26,6 +26,7 @@ router.get("/uploadAll", async (req, res) => {
         let file = await File.find({});
         return res.render("medicines/createMany.ejs", {
           files: file,
+          page: "admin",
         });
      
     } catch (error) {
@@ -87,6 +88,7 @@ router.get("/view/:id", async (req, res) => {
             head: header,
             data: results,
             length: results.length,
+            page: "admin",
           });
         });
     } catch (error) {

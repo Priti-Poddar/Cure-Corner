@@ -8,15 +8,15 @@ module.exports.getDoctors = async (req, res) => {
   if (req.user) {
     const doctor = await Doctor.findOne({ userId: req.user.id });
     // console.log(doctor);
-  res.render("doctors/index", { doctors, doctor });
+  res.render("doctors/index", { doctors, doctor, page: "Doctor" });
   } else {
-  res.render("doctors/index", { doctors, doctor:null });
+  res.render("doctors/index", { doctors, doctor: null, page: "Doctor" });
     
   }
 };
 
 module.exports.getAddDoctor = (req, res) => {
-  res.render("doctors/add-doctor");
+  res.render("doctors/add-doctor", { page: "Doctor" });
 };
 
 module.exports.postAddDoctor = async (req, res) => {
@@ -46,7 +46,11 @@ module.exports.renderUpdatePage = async (req, res) => {
   );
   let originalImageUrl = myDocAccount.image.url;
   originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250");
-  res.render("doctors/editDoctor.ejs", { myDocAccount, originalImageUrl });
+  res.render("doctors/editDoctor.ejs", {
+    myDocAccount,
+    originalImageUrl,
+    page: "Doctor",
+  });
 };
 
 
@@ -83,7 +87,7 @@ module.exports.renderBookingPage = async (req, res) => {
   // console.log(address);
   const doctor = await Doctor.findOne({ _id: id }).populate("userId");
   // console.log(doctor.address);
-  res.render("doctors/bookAppoinment.ejs", { doctor });
+  res.render("doctors/bookAppoinment.ejs", { doctor, page: "Doctor" });
 };
 
 module.exports.postBooking = async (req, res) => {

@@ -1,8 +1,8 @@
 body {
-  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-family: "Roboto", sans-serif !important;
   display: flex;
   flex-direction: column;
-  /* flex-wrap: wrap; */
+  font-weight: 800;
   min-height: 100vh;
   margin: 0 !important;
   width: 100% !important;
@@ -12,15 +12,14 @@ body {
 .navbar {
   height: 5rem;
   background-color: white;
- 
 }
 .navbar-collapse {
   display: flex;
   justify-content: space-between;
- 
+  height: 4rem !important;
 }
 
-.navbar-brand{
+.navbar-brand {
   height: 3.5rem;
   width: 3rem;
 }
@@ -32,26 +31,25 @@ body {
 } */
 .address {
   text-decoration: none;
-  color: #EF5A6F;
-  font-size: 20px;
+  color: #ef5a6f;
+  font-size: 23px;
+  font-weight: bold;
 }
 
 .address:hover {
   text-decoration: none;
-  color: #EF5A6F;
-  font-size: 20px;
+  color: #ef5a6f;
+  font-size: 23px;
+  font-weight: bold;
 }
 
 .navbar-2 {
   height: 3rem;
   background-color: white;
-  
-
 }
 .navbar-3 {
   height: 3.2rem;
-  background-color: #EF5A6F;
-
+  background-color: #ef5a6f;
 }
 
 .navbar-nav-2,
@@ -63,13 +61,55 @@ body {
 .nav-link {
   color: #fff !important;
   font-size: 14px !important;
- /* margin-top: .4rem; */
- margin-top: .8rem;
+  /* margin-top: .4rem; */
+  margin-top: 0.8rem;
+  font-style: italic;
 }
 
+.nav-link-3 {
+  text-decoration: none;
+  color: black;
+}
 
-.nav-link-3{
-  text-decoration: none; color: black;
+.navUl {
+  font-size: 18px !important;
+  font-family: "Open Sans" !important;
+  font-style: normal;
+  margin: 0 1rem;
+}
+.nav-item {
+  margin: 0.3rem;
+  padding: 0;
+}
+
+.nav-item:hover {
+  border: 1px solid rgb(222, 220, 220);
+  border-radius: 10px;
+}
+
+@media (max-width: 945px) {
+  .navbar-1,
+  .navbar-2,
+  .navbar-3 {
+    display: none !important;
+  }
+}
+
+@media (min-width: 945px) {
+  .smallNav {
+    display: none !important;
+  }
+}
+
+.searchLI {
+  background-color: rgb(247, 245, 245);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  border-radius: 15px;
+  margin-right: 1rem;
+  border: 1px solid rgb(222, 220, 220);
+  font-style: italic;
 }
 
 .small-search-bar {
@@ -83,11 +123,12 @@ body {
   height: 3.2rem;
   width: 25rem;
   border: 1px solid rgb(222, 220, 220);
+  font-style: italic;
 }
 
 .nav-link-1 {
   margin-top: 0.6rem;
-  color: #EF5A6F;
+  color: #ef5a6f;
   text-decoration: none;
 }
 .nav-link-1:hover {
@@ -117,13 +158,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
- margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .f-info-socials i {
   margin-right: 1rem;
   margin-top: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 .f-info-links a:hover {
   text-decoration: underline;
@@ -131,7 +172,7 @@ body {
 .f-info {
   text-align: center;
   /* height: 8rem; */
-  background-color: #EF5A6F;
+  background-color: #ef5a6f;
   width: 100% !important;
   display: flex;
   flex-wrap: wrap;
@@ -146,27 +187,27 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* width: 100% !important; */
 }
 
 .search-header {
   position: absolute;
-  /* z-index: 1; */
   margin-top: -8rem;
-  /* margin-left: 36rem; */
   font-size: 25px !important;
+  font-weight: 400 !important;
 }
 
 .search-bar {
   /* position: absolute; */
-  /* z-index: 1; */
+  margin: auto;
   margin-top: -9rem;
-  /*margin-left: 26rem; */
   display: flex !important;
   flex-direction: row !important;
   align-items: center;
-  width: 45rem !important;
+  width: 80% !important;
   height: 4rem;
   font-size: 20px !important;
+  font-style: italic;
 }
 
 .search-icon {
@@ -336,7 +377,7 @@ button {
   text-decoration: none;
 }
 
-.medicine-link:hover{
+.medicine-link:hover {
   text-decoration: none;
 }
 
@@ -359,20 +400,31 @@ button {
 /* login page */
 .login {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 6px;
-  border: 2px solid black;
-  border-radius: 15px;
-  background-color: #fff;
+  flex-direction: row;
+  width: 100%;
   margin: auto;
+  height: 100vh;
+  font-family: "Open Sans";
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .loginImg {
+    display: none;
+  }
+  .loninForm {
+    width: 100%;
+    margin: auto;
+  }
+  .marginDiv {
+    margin: 10rem 2rem;
+  }
 }
 
 /* Search page */
 .searchBox {
   width: 80%;
-  margin: auto;
+  margin: 1rem auto;
   /* border: 1px black solid; */
 }
 
@@ -413,21 +465,21 @@ button {
 
 .box {
   display: flex;
-  
+  width: 100%;
 }
 
 .enquiry {
   display: flex;
   flex-direction: column;
+  width: 45%;
   height: 30rem;
-  
 }
 
 .enquiry-div {
   height: 50px;
-  width: 22rem;
+  /* width: 22rem; */
   margin-bottom: 1.5rem;
-  margin-left: 16px;
+  /* margin-left: 16px; */
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 10px 0 rgba(0, 0, 0, 0.1);
@@ -444,14 +496,17 @@ button {
   align-items: center;
 }
 
-.enquiry-div-link:hover{
+.enquiry-div-link:hover {
   text-decoration: none;
- color: black;
+  color: black;
+}
+
+.details {
+  width: 55%;
 }
 
 .myDetails {
   border-radius: 15px;
-  /* width: 95%; */
   height: 5rem;
   margin: 1rem;
   font-size: 20px;
@@ -463,493 +518,74 @@ button {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 10px 0 rgba(0, 0, 0, 0.1);
 }
 
-.docDetails{
+.docDetails {
   display: flex;
-  /* flex-direction: column; */
   border-radius: 15px;
-  /* width: 95%; */
-  padding-top: .6rem;
-  padding-bottom: .6rem;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
   margin: 1.5rem 1rem;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-
 }
 
-.docItems{
+.docImg {
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  margin: 1rem;
+  align-self: center;
+}
+
+.docItems {
   margin-left: 1rem;
   /* margin-top: .5rem; */
 }
 
-
-
-/* Cart page */
-
- .cart {
-  width: 60%;
-  margin: 1rem;
-  /* border:1px solid #222222 ; */
-  display: flex;
-  flex-direction: column;
-}
-
-.cart-head {
-  display: flex;
-  margin-right: 2rem;
-  margin-top: 1rem;
-  margin-left: 1rem;
-  justify-content: space-between;
-}
-
- .user-cart-info{
-  display: flex;
-  border: 1px solid rgb(190, 189, 189);
-   border-radius: 15px; 
-  /* width: 48%; */
-   margin: 0 .6rem ;
-  margin-bottom: 1.5rem;
-  margin-right: 1.5rem;
-  height: 5rem;
-  align-items: center;
-  justify-content: space-between; 
-} 
-
-.cart-link {
-  text-decoration: none;
-  color: black;
-}
-
-.cart-link:hover {
-  color: black;
-  text-decoration: none;
-}
-.cart-prod {
-  width: 95%;
-  height: 8rem;
-  margin: 0 0.8rem;
-  margin-bottom: 1rem;
-  border-radius: 15px;
-  /* border: 1px solid black; */
-}
-
-.card-prod-main {
-  display: flex;
-  border: 1px solid rgb(190, 189, 189);
-  border-radius: 15px;
-  height: 100%;
-  align-items: center;
-} 
-
- .cart-img {
-  border-radius: 0;
-  height: 5rem;
-  width: 6rem;
+.userName{
   margin-left: 1rem;
 }
-
- .card-prod-extra {
-  width: 80%;
-  height: 100%;
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-prod-name {
-  margin: 0 1rem;
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-}
-
-.cart-qnt {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 1rem;
-  margin-top: 2.5rem;
-  z-index: 1;
-  text-decoration: none;
-  color: black;
-} 
-
- 
-
-.checkout{
-  width: 40%;
-  margin: 1rem;
-  /* border:1px solid #222222 ; */
-} 
-
-.offerDiv{
-   border: 1px solid rgb(190, 189, 189); margin: 1rem; 
-   border-radius: 10px;
-}
-
-.offers{
-  display: flex;
-  margin-top: 5px;
-  height: 2rem;
-  justify-content: space-between;
-  
-}
-
-.breakdown{
-  /* display: flex; */
-   border: 1px solid black;
-
-} 
-.payAmt{
-  display: flex;
-  justify-content: space-between;
-}
-
-.pay-btn{
-  background-color: #EF5A6F;
-  color: #fff;
-  width: 6rem;
-  height: 3rem;
-  border-radius: 10px;
-} 
-
-
-/* Popup form  */
-/* {box-sizing: border-box;} */
-
-/* Button used to open the contact form - fixed at the bottom of the page */
-.open-button {
-  padding: 16px 20px;
-  text-decoration: underline;
-  cursor: pointer;
-  opacity: 0.8;
-  
-}
-
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 12.5rem;
-  /* bottom: rem; */
-  right: 10rem;
-  width: 30rem;
-  height: 30rem;
-  padding: 10px;
-  background-color: white;
-  border-radius: 15px;
-  border: 1px solid rgb(190, 189, 189);
-  z-index: 9;
-}
-
-/* Add styles to the form container */
-.form-container {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center;
-  align-items: center; */
-  /* text-align: center; */
-  margin: 6rem 1rem;
-}
-
-
-
-/* Set a style for the submit/login button */
-.btn-save {
-  /* padding: 16px 20px;
-  border: none; */
-  cursor: pointer;
-  width: 100%;
-  margin-top:1rem;
-  /* opacity: 0.8; */
-}
-
-/* Add a red background color to the cancel button */
- .cancel {
-  position: relative;
-  top: -6.2rem !important;
- right: -13rem !important;
-}
-
-/* Add some hover effects to buttons */
-.form-container, .open-button:hover {
-  opacity: 1;
-}
-
-/* Doctor page */
-
-.indvCard{
-  width: 18rem !important; 
-   border: 1px solid rgb(190, 189, 189);
-  border-radius: 15px;
-   display: flex;
+@media (min-width: 921px) and (max-width: 1300px) {
+  .docDetails {
     flex-direction: column;
-     align-items: center;
-     padding: .8rem 0;
-     margin: 1rem;
-}
-
-.doctorImg{
-  width: 12rem !important;
-  height: 12rem !important;
-  border-radius: 50%;
-  margin-top: 2rem;
-  margin-left: 1rem;
-}
-
-.card-title{
-  font-size: 20px;
-}
-
-.card-text-1{
-  margin: 0;
-  margin-bottom: .6rem;
-}
-
-.appBtn{
-  font-size: 15px !important;
-  background-color: #536493 !important;
-  color: #fff !important;
-}
-
-.add-btn{
-  background-color: #536493 !important;
-  border: none ;
-  color: #fff !important;
-}
-/* My appointment page */
-
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  /* border: 1px solid #ddd; */
-  padding: 8px;
- 
-}
-
-.allcurstomer td,.allcurstomer th{
-  border: 1px solid #ddd;
-}
-
-.user th{
-  background-color:  #EF5A6F !important;
-}
-
-.doc th{
-  background-color:  #536493 !important;
-}
-
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-/* #customers tr:hover {background-color: #ddd;} */
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color:  #5bc0de;
-  color: white;
-}
-
-/* Admin Page */
-.adminIndiv{
-  background-color:#5bc0de;
-   border: 1px solid rgb(190, 189, 189);
-    border-radius: 15px;
-    margin: 1rem;
-    width: 8rem;
-    height: 10rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-}
-
-.count{
-  margin-top: 1rem;
-  font-size: 2.5rem;
-    color: #fff;
-}
-
-.hrDiv{
-  width: .05rem;
-   margin-top: 2rem;
-   margin-bottom: 1rem;
-    background-color: rgb(190, 189, 189);
-}
-
-/* Add csv */
-
-.center-text h3{
-margin: 1rem;
-    text-align: center;
-}
-.center-text p {
-    font-size: 20px;   
-    text-align: center;
-    color: gray;
-}
-.input-container {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: auto;
-    width: 70%;
-    height: 150px;
-    background-color: #f8f8f8;
-    border: 2px dashed lightgrey;
-}
-.upload-btn {
-    width: 130px;
-    height: 40px;
-    border: none;
-    background-color: #4b88fd;
-    color:#fff;
-    font-size: 16px;
-    border-radius: 7px;
-}
-
-
-.list-center-text {
-    color:  #f8f8f8;    
-    /* font-family: 'Source Sans 3', sans-serif; */
-    text-align: center;
-    background-color: #444444;
-    margin-top: 50px;
-}
-.list-center-text h2 {
-    padding: 5px;
-    font-size: 30px;
-    margin-bottom: 0px;
-}
-.no-file {
-    font-size: 22px;
-    color: steelblue;
-    text-align: center;
-}
-.file-details {
-    display: flex;
-    justify-content: space-evenly;
-    
-}
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: auto;
-}
-th, td {
-  text-align: left;
-  padding: 12px;
-}
-th {
-  background-color: #eee;
-  font-weight: bold;
-}
-td {
-  border-bottom: 1px solid #ddd;
-}
-.view-link {
-    padding: 10px;
-    text-decoration: none;
-    color: #0000f1;
-}
-.delete-link {
-    padding: 10px;
-    font-size: 18px;
-}
-
-.upload-btn:hover {
-    transform: translateY(-1.5px);
-    box-shadow: 0px 2px 2px 1px rgba(75, 136, 253, 0.4);
-    cursor: pointer;
-}
-
-.files-list{
-    width: 70%;
-    margin: 0px auto;
-    margin-bottom: 2rem;
-   
   }
-
-
-  /* ShowInventory page */
-.file-name{
-  width: 92%;
-  margin: 1rem auto;
-  font-weight: bold;
-  font-size: 22px;
-
+  .docImg{
+    width: 10rem;
+  height: 10rem;
+  }
 }
 
-.csv-search-bar {
-    display: flex;
-    align-items: center;
-    width: 92%;
-    margin: 1rem auto;
-}
-.csvsearch-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#csvsearch-input {
-    height: 40px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
-  margin-right: 1rem;
-    font-size: 16px;
-}
-#csvsearch-input:focus {
-    outline: none;
-}
-#go {
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px 20px;
-    background-color: #4b88fd;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-#total-rows {
-  margin: 1rem; 
-  /* font-family: 'Source Sans 3', sans-serif; */
+@media (max-width: 920px) {
+  .box {
+    flex-direction: column;
+  }
+  .enquiry {
+    width: 100%;
+  }
+  .details {
+    width: 100%;
+  }
 }
 
-#Inventory {
-  width: 90%;
-  border-collapse: collapse;
-  margin-bottom: 5rem;
-}
-#Inventory th,
-#Inventory td {
-  margin: 0;
-  text-align: left;
-}
-#Inventory th {
-  font-weight: bold;
-  background-color: #555;
-  color: white;
-  text-transform: uppercase;
-  font-size: 11px;
-}
-#Inventory td {
-  font-size: 10px;
-  border-bottom: 1px solid #ddd;
-}
-.highlight {
-  background-color: rgba(70, 130, 180, 0.2);
-}
+@media(max-width: 670px) {
+  .docDetails {
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+  }
+  .docImg{
+    width: 8rem;
+    height: 8rem;
+  }
+  .myDetails{
+    flex-direction: column;
+    width: 100%;
+    margin:1rem auto;
+    height: 8rem;
+    justify-content: space-evenly;
 
-/* style on hover */
-#go:hover {
-    transform: translateY(-1.5px);
-    box-shadow: 0px 2px 2px 0px #ccc;
+  }
+  .userName{
+    margin-left: -.5rem;
+  }
+  
 }

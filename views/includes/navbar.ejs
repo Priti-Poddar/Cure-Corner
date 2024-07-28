@@ -1,57 +1,38 @@
 <header class="sticky-top">
-  <nav class="navbar navbar-expand bg-body-light border-bottom sticky">
+  <nav class="navbar navbar-1 navbar-expand bg-body-light border-bottom sticky">
     <div class="container-fluid">
+      
       <!-- <a href="/"
-        ><img
+        ><img 
           class="navbar-brand"
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1_Crj4a0TQ0ygukVHvHY6nlXH7mEhX9aUkw&s"
       /></a> -->
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="address" href="/">DIPTI MEDICAL</a>
         </div>
-
+        <% if(page != "Home") { %>
         <a href="/search" style="text-decoration: none; color: black">
           <div class="small-search-bar" type="search">
             <i class="fa-solid fa-magnifying-glass fa-lg"></i>
             <p style="margin: 1.2rem; opacity: 0.7">Search Medicines</p>
           </div>
         </a>
+         <%}%>
 
         <div class="d-flex">
           <!-- Cart -->
-          <a class="text-reset me-5 position-relative" href="/cart">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#5f6368"
-            >
-              <path
-                d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
-              />
-            </svg>
+          <a class="text-reset  me-3 position-relative" href="/cart" style="margin-top: .5rem;">
+            <i class="fa-solid fa-cart-shopping fa-xl"></i>
             <% if(session.cart) { %>
             <span
-              class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
-              ><%= session.cart.totalQty %></span
+              class="badge position-relative rounded-pill badge-notification bg-danger"
+               style="top:-12px; left: -10px;"><%= session.cart.totalQty %></span
             >
             <% } else { %>
             <span
-              class="badge position-absolute top-0 start-100 rounded-pill badge-notification bg-danger"
-              >0</span
+              class="badge position-relative  rounded-pill badge-notification bg-danger"
+               style="top:-12px; left: -10px;">0</span
             >
             <% } %>
           </a>
@@ -64,7 +45,7 @@
           <% } %>
           <!-- Login -->
           <% if(!currUser) { %>
-          <a class="text-reset me-4 position-relative" href="/login">
+          <a class="text-reset me-4 position-relative" href="/login" >
             <button
               type="button"
               class="btn btn-outline-danger"
@@ -74,7 +55,7 @@
             </button>
           </a>
           <% } %><% if(currUser){ %>
-          <a class="text-reset me-2 position-relative" href="/myAcc">
+          <a class="text-reset me-2 position-relative" href="/myAcc"  style="margin-top: .5rem;">
             <i class="fa-solid fa-user fa-xl"></i>
           </a>
 
@@ -83,10 +64,19 @@
       </div>
     </div>
   </nav>
+  <% if(page != "Search"){ %> 
   <nav class="navbar-2 navbar-expand-md bg-body-light sticky">
     <div class="navbar-nav-2">
+      <% if(page == "Home") { %> 
+      <a class="nav-link-1" href="/" style="text-decoration: underline; color: black;">Buy Medicines</a>
+      <%} else{ %>
       <a class="nav-link-1" href="/">Buy Medicines</a>
+        <% } %>
+      <% if(page == "Doctor") { %> 
+      <a class="nav-link-1" href="/doctors" style="text-decoration: underline; color: black;">Find Doctors</a>
+       <%} else{ %>
       <a class="nav-link-1" href="/doctors">Find Doctors</a>
+        <% } %>
       <a class="nav-link-1" href="/lab">Lab Tests</a>
       <a class="nav-link-1" href="/lab">Health Records</a>
     </div>
@@ -108,4 +98,5 @@
       <a class="nav-link" href="/"><p>Health Condition</p></a>&nbsp;&nbsp;
     </div>
   </nav>
+  <% } %> 
 </header>
