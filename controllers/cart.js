@@ -18,29 +18,26 @@ module.exports.renderCartPage = async (req, res) => {
     // find the cart, whether in session or in db based on the user state
     let cart_user;
     let Add;
-    
+
     if (req.user) {
       cart_user = await Cart.findOne({ user: req.user._id });
       Add = await Address.findOne({ user: req.user._id });
-      
     }
-      // if user is signed in and has cart, load user's cart from the db
+    // if user is signed in and has cart, load user's cart from the db
     if (req.user && cart_user) {
-       
       req.session.cart = cart_user;
       // console.log(cart_user);
-        return res.render("users/cart.ejs", {
-          user: req.user,
-          cart: cart_user,
-          products: await productsFromCart(cart_user),
-          userAdd: Add,
-          page: "Cart",
-        });
-      }
+      return res.render("users/cart.ejs", {
+        user: req.user,
+        cart: cart_user,
+        products: await productsFromCart(cart_user),
+        userAdd: Add,
+        page: "Cart",
+      });
+    }
 
-      // if there is no cart in session and user is not logged in, cart is empty
-     if (!req.session.cart) {
-
+    // if there is no cart in session and user is not logged in, cart is empty
+    if (!req.session.cart) {
       return res.render("users/cart.ejs", {
         user: req.user,
         cart: null,
@@ -50,22 +47,19 @@ module.exports.renderCartPage = async (req, res) => {
       });
     }
     // otherwise, load the session's cart
-     
-      
-      return res.render("users/cart.ejs", {
-        user: req.user,
-        cart: req.session.cart,
-        products: await productsFromCart(req.session.cart),
-        userAdd: Add,
-        page: "Cart",
-      });
-    
-    
-    } catch (err) {
-      console.log(err.message);
-      res.redirect("/medicines");
-    }
-  };
+
+    return res.render("users/cart.ejs", {
+      user: req.user,
+      cart: req.session.cart,
+      products: await productsFromCart(req.session.cart),
+      userAdd: Add,
+      page: "Cart",
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.redirect("/medicines");
+  }
+};
 
 // create products array to store the info of each product in the cart
 async function productsFromCart(cart) {
@@ -81,64 +75,61 @@ async function productsFromCart(cart) {
   return products;
 }
 
-
 module.exports.increaseItem = async (req, res) => {
-    const productId = req.params.id;
-    try {
-        // get the correct cart, either from the db, session, or an empty cart.
-        let user_cart;
-        if (req.user) {
-            user_cart = await Cart.findOne({ user: req.user._id });
-        }
-        let cart;
-        if (
-            (req.user && !user_cart && req.session.cart) ||
-            (!req.user && req.session.cart)
-        ) {
-            cart = await new Cart(req.session.cart);
-        } else if (!req.user || !user_cart) {
-            cart = new Cart({});
-        } else {
-            cart = user_cart;
-        }
-
-        // add the product to the cart
-        const product = await Medicine.findById(productId);
-        const itemIndex = cart.items.findIndex((p) => p.productId == productId);
-        if (itemIndex > -1) {
-            // if product exists in the cart, update the quantity
-            cart.items[itemIndex].qty++;
-            cart.items[itemIndex].price = cart.items[itemIndex].qty * product.price;
-            cart.totalQty++;
-            cart.totalCost += product.price;
-        } else {
-            // if product does not exists in cart, find it in the db to retrieve its price and add new item
-            cart.items.push({
-                productId: productId,
-                qty: 1,
-                price: product.price,
-                title: product.title,
-            });
-            cart.totalQty++;
-            cart.totalCost += product.price;
-        }
-
-        // if the user is logged in, store the user's id and save cart to the db
-        if (req.user) {
-            cart.user = req.user._id;
-            await cart.save();
-        }
-      req.session.cart = cart;
-      // console.log(cart);
-        req.flash("success", "Item added to the cart");
-        res.redirect(req.headers.referer);
-    } catch (err) {
-        console.log(err.message);
-        res.redirect("/medicines");
+  const productId = req.params.id;
+  try {
+    // get the correct cart, either from the db, session, or an empty cart.
+    let user_cart;
+    if (req.user) {
+      user_cart = await Cart.findOne({ user: req.user._id });
     }
+    let cart;
+    if (
+      (req.user && !user_cart && req.session.cart) ||
+      (!req.user && req.session.cart)
+    ) {
+      cart = await new Cart(req.session.cart);
+    } else if (!req.user || !user_cart) {
+      cart = new Cart({});
+    } else {
+      cart = user_cart;
+    }
+
+    // add the product to the cart
+    const product = await Medicine.findById(productId);
+    const itemIndex = cart.items.findIndex((p) => p.productId == productId);
+    if (itemIndex > -1) {
+      // if product exists in the cart, update the quantity
+      cart.items[itemIndex].qty++;
+      cart.items[itemIndex].price = cart.items[itemIndex].qty * product.price;
+      cart.totalQty++;
+      cart.totalCost += product.price;
+    } else {
+      // if product does not exists in cart, find it in the db to retrieve its price and add new item
+      cart.items.push({
+        productId: productId,
+        qty: 1,
+        price: product.price,
+        title: product.title,
+      });
+      cart.totalQty++;
+      cart.totalCost += product.price;
+    }
+
+    // if the user is logged in, store the user's id and save cart to the db
+    if (req.user) {
+      cart.user = req.user._id;
+      await cart.save();
+    }
+    req.session.cart = cart;
+    // console.log(cart);
+    req.flash("success", "Item added to the cart");
+    res.redirect(req.headers.referer);
+  } catch (err) {
+    console.log(err.message);
+    res.redirect("/medicines");
+  }
 };
-
-
 
 module.exports.decreaseItem = async function (req, res, next) {
   // if a user is logged in, reduce from the user's cart and save
@@ -238,18 +229,25 @@ module.exports.saveAddressPage = async (req, res) => {
   res.redirect("/cart");
 };
 
-
 const key_id = process.env.KEY_ID;
 
 module.exports.checkoutForm = async (req, res) => {
-  const cartItem = await Cart.findById(req.session.cart._id).populate({path: "items.productId"}).populate("user");
+  const cartItem = await Cart.findById(req.session.cart._id)
+    .populate({ path: "items.productId" })
+    .populate("user");
   const items = cartItem.items;
   const Add = await Address.findOne({ user: req.user._id });
 
   // console.log(items);
   // const orders = cartItem[0].items;
-  res.render("users/payment.ejs", { cartItem, Add, key: key_id,items, page: "Payment" });
-}
+  res.render("users/payment.ejs", {
+    cartItem,
+    Add,
+    key: key_id,
+    items,
+    page: "Payment",
+  });
+};
 
 module.exports.createOrders = async (req, res) => {
   const { amount } = req.body;
@@ -300,9 +298,32 @@ module.exports.paymentRoute = async (req, res) => {
     req.flash("success", "Successfully purchased");
     req.session.cart = null;
     console.log("successfull");
-      res.json({ status: "success" });
-    
+    res.json({ status: "success" });
   } else {
     res.json({ status: "failure" });
   }
+};
+
+module.exports.paylater = async (req, res) => {
+  if (!req.session.cart) {
+    return res.redirect("/cart");
+  }
+  const cart = await Cart.findById(req.session.cart._id);
+  const address = await Address.findOne({ user: req.user._id });
+  const order = new Order({
+    user: req.user,
+    cart: {
+      totalQty: cart.totalQty,
+      totalCost: cart.totalCost,
+      items: cart.items,
+    },
+    address: address,
+  });
+  let orders = await order.save();
+  // console.log(orders);
+  await cart.save();
+  await Cart.findByIdAndDelete(cart._id);
+  req.flash("success", "Successfully purchased");
+  req.session.cart = null;
+  res.redirect("/myOrders");
 };

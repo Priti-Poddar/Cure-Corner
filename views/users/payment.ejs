@@ -61,7 +61,25 @@
         <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay Now</button>
     </form>
 
+    <form action="/cart/payLater" method="POST">
+        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay On Delivery</button>
+    </form>
     
+
+    <!-- <form action="/cart/create" method="get">
+            < let amount = 0 %>
+    < if(cartItem.totalCost <299) {%>
+        < amount =  cartItem.totalCost +50 %>
+            <h3 id="amount" name="amount">Total: &#8377;<= (cartItem.totalCost+50).toLocaleString("en-IN") %></h3>
+            <} else { %>
+        < amount =  cartItem.totalCost +50 %>
+             <h3 id="amount" name="amount">Total: &#8377;<= (cartItem.totalCost+0).toLocaleString("en-IN") %></h3>
+        
+    < }%>
+    <input type="hidden" name="name" value="200">
+    <input type="hidden" name="callbackUrl" value="http://localhost:8080/cart/callback">
+    <button class="btn btn-dark" type="submit">Pay Now</button>
+  </form> -->
 
 </div>
 </div>

@@ -31,9 +31,6 @@ const adminRoutes = require("./routes/adminRoute.js");
 const { isLoggedIn } = require("./middleware.js");
 const { render } = require("ejs");
 
-
-
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(express.urlencoded({ extended: true }));
@@ -121,9 +118,8 @@ app.use((req, res, next) => {
 
 app.get("/", async (req, res) => {
   // const allmedicines = await Medicine.find({});
- res.render("medicines/index.ejs", { page:"Home" });
-
-  });
+  res.render("medicines/index.ejs", { page: "Home" });
+});
 
 app.get("/myAcc", isLoggedIn, async (req, res) => {
   const doctors = await Doctor.findOne({ userId: req.user._id }).populate(
@@ -131,11 +127,124 @@ app.get("/myAcc", isLoggedIn, async (req, res) => {
   );
   // console.log(doctors);
   res.render("users/account.ejs", { doctors, page: "User" });
-
-  
 });
 
+app.get("/terms", async (req, res) => {
+  res.render("payment/terms.ejs");
+});
 
+app.get("/refundPolicy", async (req, res) => {
+  res.render("payment/refundPolicy.ejs");
+});
+
+app.get("/shippingPolicy", async (req, res) => {
+  res.render("payment/shippingPolicy.ejs");
+});
+
+app.get("/returnsPolicy", async (req, res) => {
+  res.render("payment/returnsPolicy.ejs");
+});
+
+const axios = require("axios");
+const uniqid = require("uniqid");
+const crypto = require("crypto");
+const sha256 = require("sha256");
+
+const PHONEPE_MERCHANT_ID = "PGTESTPAYUAT86";
+const SALT_KEY = "96434309-7796-489d-8924-ab56988a6076";
+// const SALT_KEY = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
+const PHONE_PE_HOST_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
+const SALT_INDEX = 1;
+const APP_BE_URL = "http://localhost:8080"; // our application
+
+app.get("/pay", (req, res) => {
+  const payEndPoint = "/pg/v1/pay";
+  const merchantTransactionId = uniqid();
+  const userId = 123;
+  const payload = {
+    merchantId: PHONEPE_MERCHANT_ID,
+    merchantTransactionId: merchantTransactionId,
+    merchantUserId: userId,
+    amount: 20000,
+    redirectUrl: `http://localhost:8080/redirect-url/${merchantTransactionId}`,
+    redirectMode: "REDIRECT",
+    mobileNumber: "9999999999",
+    paymentInstrument: {
+      type: "PAY_PAGE",
+    },
+  };
+
+  // SHA256(base64 encoded payload + “/pg/v1/pay” +
+  // salt key) + ### + salt index
+  const bufferObj = Buffer.from(JSON.stringify(payload), "utf8");
+  const base64EncodedPayload = bufferObj.toString("base64");
+  const xVerify =
+    sha256(base64EncodedPayload + payEndPoint + SALT_KEY) + "###" + SALT_INDEX;
+
+  const options = {
+    method: "post",
+    url: `${PHONE_PE_HOST_URL}${payEndPoint}`,
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+      "X-VERIFY": xVerify,
+    },
+    data: {
+      request: base64EncodedPayload,
+    },
+  };
+  axios
+    .request(options)
+    .then(function (response) {
+      // console.log(response.data);
+      const url = response.data.data.instrumentResponse.redirectInfo.url;
+      res.redirect(url);
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.send(error);
+    });
+});
+
+app.get("/redirect-url/:merchantTransactionId", (req, res) => {
+  const { merchantTransactionId } = req.params;
+  console.log("merchantTransactionId: ", merchantTransactionId);
+
+  if (merchantTransactionId) {
+    // SHA256(“/pg/v1/status/{merchantId}/{merchantTransactionId}” + saltKey) + “###” + saltIndex
+    const xVerify =
+      sha256(
+        `/pg/v1/status/${PHONEPE_MERCHANT_ID}/${merchantTransactionId}` +
+          SALT_KEY
+      ) +
+      "###" +
+      SALT_INDEX;
+    const options = {
+      method: "get",
+      url: `${PHONE_PE_HOST_URL}/pg/v1/status/${PHONEPE_MERCHANT_ID}/${merchantTransactionId}`,
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        "X-MERCHANT-ID": merchantTransactionId,
+        "X-VERIFY": xVerify,
+      },
+    };
+    axios
+      .request(options)
+      .then(function (response) {
+        const paymentDetails = response.data;
+        console.log(paymentDetails);
+
+        res.render("payment/success.ejs", { paymentDetails });
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+    // res.send({ merchantTransactionId });
+  } else {
+    res.send("ERROR!!");
+  }
+});
 
 app.use("/medicines", medicineRouter);
 app.use("/", userRouter);
@@ -144,8 +253,6 @@ app.use("/category", categoryRouter);
 app.use("/cart", cartRouter);
 app.use("/doctors", doctorRoutes);
 app.use("/admin", adminRoutes);
-
-
 
 app.all("*", (req, res, next) => {
   // res.send({ cart });
