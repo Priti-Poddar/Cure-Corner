@@ -6,7 +6,10 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const Medicine = require("./models/medicine");
+const axios = require("axios");
+const uniqid = require("uniqid");
+const sha256 = require("sha256");
+const HealthRecords = require("./models/healthRecord");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -19,6 +22,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const Cart = require("./models/cart.js");
 const Address = require("./models/address.js");
+const Order = require("./models/order.js");
 const Doctor = require("./models/doctorsModel.js");
 
 const medicineRouter = require("./routes/medicine.js");
@@ -130,25 +134,52 @@ app.get("/myAcc", isLoggedIn, async (req, res) => {
 });
 
 app.get("/terms", async (req, res) => {
-  res.render("payment/terms.ejs");
+  res.render("payment/terms.ejs", { page: "policies" });
 });
 
 app.get("/refundPolicy", async (req, res) => {
-  res.render("payment/refundPolicy.ejs");
+  res.render("payment/refundPolicy.ejs", { page: "policies" });
 });
 
 app.get("/shippingPolicy", async (req, res) => {
-  res.render("payment/shippingPolicy.ejs");
+  res.render("payment/shippingPolicy.ejs", { page: "policies" });
 });
 
 app.get("/returnsPolicy", async (req, res) => {
-  res.render("payment/returnsPolicy.ejs");
+  res.render("payment/returnsPolicy.ejs",{page:"policies"});
 });
 
-const axios = require("axios");
-const uniqid = require("uniqid");
-const crypto = require("crypto");
-const sha256 = require("sha256");
+app.get("/healthRecords", async (req, res) => {
+  res.render("users/healthRecords.ejs", { page: "healthRecords" });
+});
+
+const multer = require("multer");
+const { storage } = require("./cloudConfig.js");
+const upload = multer({ storage });
+
+
+
+app.post(
+  "/healthRecords",
+  upload.single("healthRecords[image]"),
+  async (req, res) => {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    const { Pname, phone, message } = req.body;
+    console.log(req.body);
+    const newHealthRecord = new HealthRecords({
+      userId: req.user._id,
+      image: { url, filename },
+      Pname,
+      phone,
+      message,
+    });
+
+    let savedHealthRecord = await newHealthRecord.save();
+    req.flash("success", "Your prescription uploaded!");
+    res.redirect("/");
+  }
+);
 
 const PHONEPE_MERCHANT_ID = "PGTESTPAYUAT86";
 const SALT_KEY = "96434309-7796-489d-8924-ab56988a6076";
@@ -157,18 +188,20 @@ const PHONE_PE_HOST_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
 const SALT_INDEX = 1;
 const APP_BE_URL = "http://localhost:8080"; // our application
 
-app.get("/pay", (req, res) => {
+app.post("/pay",isLoggedIn, async (req, res) => {
   const payEndPoint = "/pg/v1/pay";
   const merchantTransactionId = uniqid();
   const userId = 123;
+  const { amount } = req.body;
+  
   const payload = {
     merchantId: PHONEPE_MERCHANT_ID,
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
-    amount: 20000,
+    amount: amount * 100,
     redirectUrl: `http://localhost:8080/redirect-url/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
-    mobileNumber: "9999999999",
+    mobileNumber: req.user.mobile,
     paymentInstrument: {
       type: "PAY_PAGE",
     },
@@ -195,9 +228,29 @@ app.get("/pay", (req, res) => {
   };
   axios
     .request(options)
-    .then(function (response) {
+    .then(async function (response) {
       // console.log(response.data);
       const url = response.data.data.instrumentResponse.redirectInfo.url;
+      if (!req.session.cart) {
+    return res.redirect("/cart");
+  }
+  const cart = await Cart.findById(req.session.cart._id);
+  const address = await Address.findOne({ user: req.user._id });
+  const order = new Order({
+    user: req.user,
+    cart: {
+      totalQty: cart.totalQty,
+      totalCost: cart.totalCost,
+      items: cart.items,
+    },
+    address: address,
+  });
+  let orders = await order.save();
+  // console.log(orders);
+  await cart.save();
+  await Cart.findByIdAndDelete(cart._id);
+  req.flash("success", "Successfully purchased");
+  req.session.cart = null;
       res.redirect(url);
     })
     .catch(function (error) {
@@ -206,9 +259,10 @@ app.get("/pay", (req, res) => {
     });
 });
 
+
 app.get("/redirect-url/:merchantTransactionId", (req, res) => {
   const { merchantTransactionId } = req.params;
-  console.log("merchantTransactionId: ", merchantTransactionId);
+  // console.log("merchantTransactionId: ", merchantTransactionId);
 
   if (merchantTransactionId) {
     // SHA256(“/pg/v1/status/{merchantId}/{merchantTransactionId}” + saltKey) + “###” + saltIndex

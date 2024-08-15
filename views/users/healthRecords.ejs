@@ -1,0 +1,38 @@
+<% layout("/layouts/boilerplate") %>
+ <%- include("../includes/smNavBar.ejs")%>
+    <%- include("../includes/navbar.ejs")%>
+    <%- include("../includes/flash.ejs")%>
+
+    <form style="width: 80%; margin: auto; margin-top: 2rem;" action="/healthRecords" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+  <h3 class="mb-4">Health Documents</h3>
+  <div class="mb-3" >
+  <label for="Pname" class="form-label">Name</label>
+    <input type="text" id="Pname" name="healthRecords[Pname]" class="form-control" required>
+  <div class="invalid-feedback">
+              Please enter Name!
+          </div>  
+  </div>
+     <div class="mb-3" >
+     <label for="phone" class="form-label">Phone</label>
+    <input id="phone" class="form-control" name="healthRecords[phone]" required>
+    </div>
+    <div class="mb-3" >
+    <label for="image" class="form-label">Upload Prescription</label>
+          <input
+            name="healthRecords[image]"
+            type="file"
+            class="form-control"
+            required
+          />
+          <div class="invalid-feedback">Please add a Prescription</div>
+</div>
+    <div class="mb-3" >
+     <label for="message" class="form-label">Message</label>
+    <textarea id="message" class="form-control" name="healthRecords[message]"></textarea>
+    </div>
+    <button type="submit" class="btn btn-dark mb-4">Sumbit</button>
+  </form>
+
+
+
+    <%- include("../includes/footer.ejs")%>

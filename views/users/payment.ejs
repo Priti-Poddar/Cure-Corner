@@ -1,100 +1,99 @@
 <% layout("/layouts/boilerplate") %>
- 
-    <%- include("../includes/flash.ejs")%>
-    <body>
-<div style="width: 80%;display: flex; flex-direction: column; margin: auto; margin-top: 4rem; font-family: Open Sans">
-    <form id="payment-form">
+<header class="sticky-top">
+  <nav class="navbar navbar-expand bg-body-light border-bottom sticky">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="address" href="/">DIPTI MEDICAL</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<%- include("../includes/flash.ejs")%>
+
+<h3 style="width: 90%; margin: 1rem auto">Payments</h3>
+<hr style="width: 90%; margin: auto" />
+<div
+  style="
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin:4rem auto;
+    font-family: Open Sans;
+  "
+>
+  <div style=" border: 1px solid rgb(189, 187, 187);border-radius: 15px; width: 100%;margin-right: 2rem;">
+    
+    <form action="/pay" method="POST" class="phonepeDiv">
+      <% let amount = 0 %> <% if( cartItem.totalCost <299){ %> <% amount =
+      cartItem.totalCost +50; %> <% }else{ %> <% amount = cartItem.totalCost ;
+      %> <% } %>
+      <input type="hidden" id="amount" name="amount" value= <%=amount%> >
+        <div style="display: flex;">
+        <img src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png" class="PhonePe-Logo">
+          <h5 style="align-self: center; font-weight: bold;">PhonePe</h5>
+      </div>
+      <button class="btn payBtn" type="submit" >Pay Now</button>
+    </form>
+    <hr style="width: 95%; margin:.2rem auto; margin-top: -.2rem;"/>
+
+    <form action="/cart/payLater" method="POST" class="phonepeDiv">
+      <h5 style="margin-left: .5rem; font-weight: bold;">Pay on Delivery</h5>
+      <button class="btn payBtn" type="submit">Place Order</button>
+    </form>
+  </div>
+
+  <div style="width: 40%; margin-top: -2rem;">
+    <h5>Sub Total</h5>
+    <div style="border: 1px solid rgb(189, 187, 187);border-radius: 15px; padding: .5rem;">
+      <h5>
+        Total Items: <%= cartItem.totalQty %>
+      </h5>
+      <% if(cartItem.totalCost <299) {%>
+      <h5
+        name="amount"
+      >
+        Total amount: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN") %>
+      </h5>
+      <%} else { %>
+      <h5
+        name="amount"
+      >
+        Total amount: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN") %>
+      </h5>
+
+      <% }%>
+    </div>
+  </div>
+
+  <!-- <form id="payment-form">
     <div style="border: 1px solid rgb(190, 189, 189); margin-bottom: 1rem;border-radius: 15px;">
     <div  style="margin:1rem;display: flex; justify-content: space-between;">
-        <h3 ><i><%= cartItem.user.username %> </i></h3>
+        <h3 ><i><= cartItem.user.username %> </i></h3>
     <button class="btn btn-dark"><a href="/cart" style="text-decoration: none; color: #fff;">Return to Cart</a></button>
     </div>
-    <p style="margin: 1rem;"><%= Add.location %> </p>
+    <p style="margin: 1rem;"><= Add.location %> </p>
         </div>
     <div style="border: 1px solid rgb(190, 189, 189); border-radius: 15px; margin-bottom: 2rem;">
-        <!-- <div class="Orders row row-cols-lg-4 row-cols-md-3 row-cols-sm-1"  style="margin-top: 1rem;" > -->
+         <div class="Orders row row-cols-lg-4 row-cols-md-3 row-cols-sm-1"  style="margin-top: 1rem;" > 
     <h3 style="margin: 1rem;  margin-left:2rem">Your order Subtotal</h3>
-    <table id="payment"  style="width: 90%; ">
-    <tr>
-        <th>product name</th>
-        <th>Image</th>
-      <th>Quantity</th>
-      <th>Price</th>
-      </tr>        
-    <% for(let item of items) {%>
-        <tr>
-            <td style="border-left:1px solid rgb(190, 189, 189); "><%= item.productId.drugName %></td>
-            <td><img src= '<%= item.productId.image %>' style="height: 4rem; width: 6rem;"></td>
-                <td> <%= item.qty %></td>
-                <td style="border-right:1px solid rgb(190, 189, 189); "> &#8377;<%= item.price %></td>
-                
-        </tr>
-             <% }%>
-    </table>
-    <!-- </div> -->
-     <!-- <div style="display: flex; flex-direction: column; align-items: end; margin-right: 5rem;"> -->
-        <table id="total"  >
-    <tr >
-    <th style="background-color: #fff;">Total Items: <%= cartItem.totalQty %></th>
-        <% if(cartItem.totalCost <299) {%>
-            <th style="background-color: #fff;"  name="amount">Total: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN") %></th>
-            <%} else { %>
-             <th style="background-color: #fff;" name="amount">Total: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN") %></th>
-        
-            <% }%>
-          
-    </tr>
-      </table>
-        
-        <div id="totalSm">
-        <h3 style="margin: 1rem;  margin-left:2rem">Total Items: <%= cartItem.totalQty %></h3>
-        <% if(cartItem.totalCost <299) {%>
-            <h3 style="margin: 1rem;  margin-left:2rem ;margin-bottom: 3rem;"  name="amount">Total: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN") %></h3>
-            <%} else { %>
-             <h3 style="margin: 1rem;  margin-left:2rem ;margin-bottom: 3rem;" name="amount">Total: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN") %></h3>
-        
-            <% }%>
-
-        </div>
 
     <input type="hidden" id="order_id" name="order_id">
-        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay Now</button>
-    </form>
-
-    <form action="/cart/payLater" method="POST">
-        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay On Delivery</button>
-    </form>
-    
-
-    <!-- <form action="/cart/create" method="get">
-            < let amount = 0 %>
-    < if(cartItem.totalCost <299) {%>
-        < amount =  cartItem.totalCost +50 %>
-            <h3 id="amount" name="amount">Total: &#8377;<= (cartItem.totalCost+50).toLocaleString("en-IN") %></h3>
-            <} else { %>
-        < amount =  cartItem.totalCost +50 %>
-             <h3 id="amount" name="amount">Total: &#8377;<= (cartItem.totalCost+0).toLocaleString("en-IN") %></h3>
-        
-    < }%>
-    <input type="hidden" name="name" value="200">
-    <input type="hidden" name="callbackUrl" value="http://localhost:8080/cart/callback">
-    <button class="btn btn-dark" type="submit">Pay Now</button>
-  </form> -->
-
-</div>
+        <button class="btn btn-dark" id="pay-btn" type="submit" style="margin: 1rem 2rem; margin-top: -2rem;">Pay Now</button> -
+    </form>  -->
 </div>
 
-    <%- include("../includes/footer.ejs")%>
-</body>
+<%- include("../includes/footer.ejs")%>
 
-<script>
+<!-- <script>
 document.getElementById('pay-btn').addEventListener('click', async (e) => {
             e.preventDefault();
             let amount = 0;
-            if('<%= cartItem.totalCost %>'<299){
-             amount = '<%= cartItem.totalCost +50 %>'; // Amount in INR
+            if('<= cartItem.totalCost %>'<299){
+             amount = '<= cartItem.totalCost +50 %>'; // Amount in INR
             }else{
-             amount = '<%= cartItem.totalCost %>'; // Amount in INR
+             amount = '<= cartItem.totalCost %>'; // Amount in INR
             }
             // Create an order
             const response = await fetch('/cart/order', {
@@ -105,7 +104,7 @@ document.getElementById('pay-btn').addEventListener('click', async (e) => {
             const order = await response.json();
 
             const options = {
-                key: '<%= key %>',
+                key: '<= key %>',
                 amount: order.amount,
                 currency: order.currency,
                 name: 'Dipti Medical',
@@ -137,13 +136,13 @@ document.getElementById('pay-btn').addEventListener('click', async (e) => {
                    
                 },
                 prefill: {
-                    name: '<%= cartItem.user.username %>',
-                    email: '<%= cartItem.user.email %>',
-                    contact: '<%= cartItem.user.mobile %>',
+                    name: '<= cartItem.user.username %>',
+                    email: '<= cartItem.user.email %>',
+                    contact: '<= cartItem.user.mobile %>',
                     
                 },
                 notes: {
-                    address: '<%= Add.location %> '
+                    address: '<= Add.location %> '
                 },
                 theme: {
                     color: '#3fbfda'
@@ -153,4 +152,4 @@ document.getElementById('pay-btn').addEventListener('click', async (e) => {
             const rzp1 = new Razorpay(options);
             rzp1.open();
         });
-    </script>
+    </script> -->

@@ -304,6 +304,7 @@ module.exports.paymentRoute = async (req, res) => {
   }
 };
 
+
 module.exports.paylater = async (req, res) => {
   if (!req.session.cart) {
     return res.redirect("/cart");

@@ -13,7 +13,6 @@ router.post("/order",CartController.createOrders);
 
 router.post("/checkout", isLoggedIn, CartController.paymentRoute);
 
-
 router.post("/payLater", isLoggedIn, CartController.paylater);
 
 

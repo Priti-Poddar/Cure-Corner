@@ -15,6 +15,7 @@ module.exports.getDoctors = async (req, res) => {
   }
 };
 
+
 module.exports.getAddDoctor = (req, res) => {
   res.render("doctors/add-doctor", { page: "Doctor" });
 };
