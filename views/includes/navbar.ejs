@@ -11,8 +11,8 @@
           <a class="address" href="/">DIPTI MEDICAL</a>
         </div>
         <% if(page != "Home") { %>
-        <a href="/search" style="text-decoration: none; color: black">
-          <div class="small-search-bar" type="search">
+        <a href="/search" class="small-search-bar-link" >
+          <div class="small-search-bar">
             <i class="fa-solid fa-magnifying-glass fa-lg"></i>
             <p style="margin: 1.2rem; opacity: 0.7">Search Medicines</p>
           </div>
@@ -94,9 +94,15 @@
       >
       <%} else{ %>
       <a class="nav-link-1" href="/doctors">Find Doctors</a>
-      <% } %>
+      <% } %><% if(page == "labTest") { %>
+      <a class="nav-link-1" href="/lab" style="text-decoration: underline; color: black">Lab Tests</a>
+        <%} else{ %>
       <a class="nav-link-1" href="/lab">Lab Tests</a>
+      <% } %><% if(page == "healthRecords") { %>
+      <a class="nav-link-1" href="/healthRecords" style="text-decoration: underline; color: black">Health Records</a>
+      <%} else{ %>
       <a class="nav-link-1" href="/healthRecords">Health Records</a>
+    <% } %>
     </div>
   </nav>
   <% if(page == "policies") { %> <%} else{ %>

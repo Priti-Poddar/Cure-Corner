@@ -6,9 +6,6 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const axios = require("axios");
-const uniqid = require("uniqid");
-const sha256 = require("sha256");
 const HealthRecords = require("./models/healthRecord");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -32,8 +29,9 @@ const categoryRouter = require("./routes/category.js");
 const cartRouter = require("./routes/cart.js");
 const doctorRoutes = require("./routes/Doctors.js");
 const adminRoutes = require("./routes/adminRoute.js");
+const paymentRoute = require("./routes/paymentRoute.js");
 const { isLoggedIn } = require("./middleware.js");
-const { render } = require("ejs");
+// const { render } = require("ejs");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -104,21 +102,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// let medicin1 = new Medicine({
-//   drugName: "paracitamol",
-//   manufacturer: "ABC",
-//   description: "Helps to reduce headache",
-//   consumeType: "oral",
-//   expirydate: 2025 - 10 - 10,
-//   price: 220,
-//   sideEffects: "nothing",
-//   disclaimer:"ask your doctor",
-// });
-
-// medicin1.save().then((res) => {
-//     console.log(res);
-// }).catch((err) => { console.log(err) });
-// let cart = [];
 
 app.get("/", async (req, res) => {
   // const allmedicines = await Medicine.find({});
@@ -134,19 +117,19 @@ app.get("/myAcc", isLoggedIn, async (req, res) => {
 });
 
 app.get("/terms", async (req, res) => {
-  res.render("payment/terms.ejs", { page: "policies" });
+  res.render("policies/terms.ejs", { page: "policies" });
 });
 
 app.get("/refundPolicy", async (req, res) => {
-  res.render("payment/refundPolicy.ejs", { page: "policies" });
+  res.render("policies/refundPolicy.ejs", { page: "policies" });
 });
 
 app.get("/shippingPolicy", async (req, res) => {
-  res.render("payment/shippingPolicy.ejs", { page: "policies" });
+  res.render("policies/shippingPolicy.ejs", { page: "policies" });
 });
 
 app.get("/returnsPolicy", async (req, res) => {
-  res.render("payment/returnsPolicy.ejs",{page:"policies"});
+  res.render("policies/returnsPolicy.ejs",{page:"policies"});
 });
 
 app.get("/healthRecords", async (req, res) => {
@@ -181,124 +164,7 @@ app.post(
   }
 );
 
-const PHONEPE_MERCHANT_ID = "PGTESTPAYUAT86";
-const SALT_KEY = "96434309-7796-489d-8924-ab56988a6076";
-// const SALT_KEY = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399";
-const PHONE_PE_HOST_URL = "https://api-preprod.phonepe.com/apis/pg-sandbox";
-const SALT_INDEX = 1;
-const APP_BE_URL = "http://localhost:8080"; // our application
 
-app.post("/pay",isLoggedIn, async (req, res) => {
-  const payEndPoint = "/pg/v1/pay";
-  const merchantTransactionId = uniqid();
-  const userId = 123;
-  const { amount } = req.body;
-  
-  const payload = {
-    merchantId: PHONEPE_MERCHANT_ID,
-    merchantTransactionId: merchantTransactionId,
-    merchantUserId: userId,
-    amount: amount * 100,
-    redirectUrl: `http://localhost:8080/redirect-url/${merchantTransactionId}`,
-    redirectMode: "REDIRECT",
-    mobileNumber: req.user.mobile,
-    paymentInstrument: {
-      type: "PAY_PAGE",
-    },
-  };
-
-  // SHA256(base64 encoded payload + “/pg/v1/pay” +
-  // salt key) + ### + salt index
-  const bufferObj = Buffer.from(JSON.stringify(payload), "utf8");
-  const base64EncodedPayload = bufferObj.toString("base64");
-  const xVerify =
-    sha256(base64EncodedPayload + payEndPoint + SALT_KEY) + "###" + SALT_INDEX;
-
-  const options = {
-    method: "post",
-    url: `${PHONE_PE_HOST_URL}${payEndPoint}`,
-    headers: {
-      accept: "application/json",
-      "Content-Type": "application/json",
-      "X-VERIFY": xVerify,
-    },
-    data: {
-      request: base64EncodedPayload,
-    },
-  };
-  axios
-    .request(options)
-    .then(async function (response) {
-      // console.log(response.data);
-      const url = response.data.data.instrumentResponse.redirectInfo.url;
-      if (!req.session.cart) {
-    return res.redirect("/cart");
-  }
-  const cart = await Cart.findById(req.session.cart._id);
-  const address = await Address.findOne({ user: req.user._id });
-  const order = new Order({
-    user: req.user,
-    cart: {
-      totalQty: cart.totalQty,
-      totalCost: cart.totalCost,
-      items: cart.items,
-    },
-    address: address,
-  });
-  let orders = await order.save();
-  // console.log(orders);
-  await cart.save();
-  await Cart.findByIdAndDelete(cart._id);
-  req.flash("success", "Successfully purchased");
-  req.session.cart = null;
-      res.redirect(url);
-    })
-    .catch(function (error) {
-      console.error(error);
-      res.send(error);
-    });
-});
-
-
-app.get("/redirect-url/:merchantTransactionId", (req, res) => {
-  const { merchantTransactionId } = req.params;
-  // console.log("merchantTransactionId: ", merchantTransactionId);
-
-  if (merchantTransactionId) {
-    // SHA256(“/pg/v1/status/{merchantId}/{merchantTransactionId}” + saltKey) + “###” + saltIndex
-    const xVerify =
-      sha256(
-        `/pg/v1/status/${PHONEPE_MERCHANT_ID}/${merchantTransactionId}` +
-          SALT_KEY
-      ) +
-      "###" +
-      SALT_INDEX;
-    const options = {
-      method: "get",
-      url: `${PHONE_PE_HOST_URL}/pg/v1/status/${PHONEPE_MERCHANT_ID}/${merchantTransactionId}`,
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-        "X-MERCHANT-ID": merchantTransactionId,
-        "X-VERIFY": xVerify,
-      },
-    };
-    axios
-      .request(options)
-      .then(function (response) {
-        const paymentDetails = response.data;
-        console.log(paymentDetails);
-
-        res.render("payment/success.ejs", { paymentDetails });
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-    // res.send({ merchantTransactionId });
-  } else {
-    res.send("ERROR!!");
-  }
-});
 
 app.use("/medicines", medicineRouter);
 app.use("/", userRouter);
@@ -307,6 +173,7 @@ app.use("/category", categoryRouter);
 app.use("/cart", cartRouter);
 app.use("/doctors", doctorRoutes);
 app.use("/admin", adminRoutes);
+app.use("/payment", paymentRoute);
 
 app.all("*", (req, res, next) => {
   // res.send({ cart });

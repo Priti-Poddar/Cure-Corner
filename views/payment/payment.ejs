@@ -1,0 +1,202 @@
+<% layout("/layouts/boilerplate") %>
+<header class="sticky-top">
+  <nav class="navbar navbar-expand bg-body-light border-bottom sticky">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="address" href="/">DIPTI MEDICAL</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<%- include("../includes/flash.ejs")%>
+
+<h3 style="width: 90%; margin: 1rem auto">Payments</h3>
+<hr style="width: 90%; margin: auto" />
+<div
+  style="
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 4rem auto;
+    font-family: Open Sans;
+  "
+>
+  <div
+    style="
+      border: 1px solid rgb(189, 187, 187);
+      border-radius: 15px;
+      width: 100%;
+      margin-right: 2rem;
+    "
+  >
+    <form id="payment-form1" class="phonepeDiv">
+      <div style="display: flex">
+        <img
+          src="https://download.logo.wine/logo/PhonePe/PhonePe-Logo.wine.png"
+          class="PhonePe-Logo"
+        />
+        <h5 style="align-self: center; font-weight: bold">PhonePe</h5>
+      </div>
+      <button class="payBtn" id="phonepeBtn" type="submit">Pay Now</button>
+    </form>
+    <hr style="width: 95%; margin: 0.2rem auto; margin-top: -0.2rem" />
+
+    <form id="payment-form2" class="phonepeDiv">
+      <input type="hidden" id="order_id" name="order_id" />
+      <div style="display: flex">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg"
+          class="PhonePe-Logo"
+        />
+        <h5 style="align-self: center; font-weight: bold">Razorpay</h5>
+      </div>
+      <button class="payBtn" id="pay-btn" type="submit">Pay Now</button>
+    </form>
+
+    <hr style="width: 95%; margin: 0.2rem auto; margin-top: -0.2rem" />
+
+    <form action="/payment/payLater" method="POST" class="phonepeDiv">
+      <h5 style="margin-left: 0.5rem; font-weight: bold">Pay on Delivery</h5>
+      <button class="payBtn" type="submit">Place Order</button>
+    </form>
+  </div>
+
+  <div style="width: 40%; margin-top: -2rem">
+    <h5>Sub Total</h5>
+    <div
+      style="
+        border: 1px solid rgb(189, 187, 187);
+        border-radius: 15px;
+        padding: 0.5rem;
+      "
+    >
+      <h5>Total Items: <%= cartItem.totalQty %></h5>
+      <% if(cartItem.totalCost <299) {%>
+      <h5 name="amount">
+        Total amount: &#8377;<%= (cartItem.totalCost+50).toLocaleString("en-IN")
+        %>
+      </h5>
+      <%} else { %>
+      <h5 name="amount">
+        Total amount: &#8377;<%= (cartItem.totalCost+0).toLocaleString("en-IN")
+        %>
+      </h5>
+
+      <% }%>
+    </div>
+  </div>
+</div>
+
+<%- include("../includes/footer.ejs")%>
+
+<script>
+  document.getElementById("pay-btn").addEventListener("click", async (e) => {
+    e.preventDefault();
+    let amount = 0;
+    if ("<%= cartItem.totalCost %>" < 299) {
+      amount = "<%= cartItem.totalCost +50 %>"; // Amount in INR
+    } else {
+      amount = "<%= cartItem.totalCost %>"; // Amount in INR
+    }
+    // Create an order
+    const response = await fetch("/payment/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount }),
+    });
+    const order = await response.json();
+
+    const options = {
+      key: "<%= key %>",
+      amount: order.amount,
+      currency: order.currency,
+      name: "Dipti Medical",
+      description: "Test Transaction",
+      order_id: order.id,
+      // callback_url: '/myOrders',
+      //  redirect: true,
+      // order_id: '12356',
+      handler: async function (response) {
+        const verifyResponse = await fetch("/payment/payWrazorpe", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          }),
+        });
+
+        const verifyResult = await verifyResponse.json();
+        // console.log(verifyResult.status);
+        if (verifyResult.status === "success") {
+          // alert('Payment successful');
+          window.location.href = "/myOrders";
+        } else {
+          alert("Payment failed");
+          window.location.href = "/cart";
+        }
+      },
+      prefill: {
+        name: "<%= cartItem.user.username %>",
+        email: "<%= cartItem.user.email %>",
+        contact: "<%= cartItem.user.mobile %>",
+      },
+      notes: {
+        address: "<%= Add.location %> ",
+      },
+      theme: {
+        color: "#3fbfda",
+      },
+    };
+
+    const rzp1 = new Razorpay(options);
+    rzp1.open();
+  });
+
+
+
+
+
+
+
+
+
+  document.getElementById("phonepeBtn").addEventListener("click", async (e) => {
+    e.preventDefault();
+    let amount = 0;
+    if ("<%= cartItem.totalCost %>" < 299) {
+      amount = "<%= cartItem.totalCost +50 %>"; // Amount in INR
+    } else {
+      amount = "<%= cartItem.totalCost %>"; // Amount in INR
+    }
+    // Create an order
+    const response = await fetch("/payment/payload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount }),
+    });
+    const order = await response.json();
+    console.log(order);
+
+    const verifyResponse = await fetch("/payment/payWphonepe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        xVerify: order.xVerify,
+        base64Payload: order.base64Payload,
+      }),
+    });
+    const verifyResult = await verifyResponse.json();
+        // console.log(verifyResult.url);
+        console.log(verifyResult.status);
+        console.log(verifyResult.url);
+        if(verifyResult.status === true){
+          window.location.href = `${verifyResult.url}`;
+        }
+        
+
+  });
+</script>

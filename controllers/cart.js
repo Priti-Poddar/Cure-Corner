@@ -1,17 +1,10 @@
 const Cart = require("../models/cart");
 const Address = require("../models/address");
 const Medicine = require("../models/medicine");
-const Order = require("../models/order.js");
 const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
-const Razorpay = require("razorpay");
-const { KEY_ID, KEY_SECRET } = process.env;
 
-const razorpay = new Razorpay({
-  key_id: KEY_ID,
-  key_secret: KEY_SECRET,
-});
 
 module.exports.renderCartPage = async (req, res) => {
   try {
@@ -229,102 +222,3 @@ module.exports.saveAddressPage = async (req, res) => {
   res.redirect("/cart");
 };
 
-const key_id = process.env.KEY_ID;
-
-module.exports.checkoutForm = async (req, res) => {
-  const cartItem = await Cart.findById(req.session.cart._id)
-    .populate({ path: "items.productId" })
-    .populate("user");
-  const items = cartItem.items;
-  const Add = await Address.findOne({ user: req.user._id });
-
-  // console.log(items);
-  // const orders = cartItem[0].items;
-  res.render("users/payment.ejs", {
-    cartItem,
-    Add,
-    key: key_id,
-    items,
-    page: "Payment",
-  });
-};
-
-module.exports.createOrders = async (req, res) => {
-  const { amount } = req.body;
-  // console.log(amount);
-  const options = {
-    amount: amount * 100, // amount in the smallest currency unit
-    currency: "INR",
-    receipt: "order_rcptid_11",
-  };
-  try {
-    const order = await razorpay.orders.create(options);
-    res.json(order);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
-module.exports.paymentRoute = async (req, res) => {
-  if (!req.session.cart) {
-    return res.redirect("/cart");
-  }
-  const cart = await Cart.findById(req.session.cart._id);
-  const address = await Address.findOne({ user: req.user._id });
-
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
-  const crypto = require("crypto");
-  const hmac = crypto.createHmac("sha256", KEY_SECRET);
-
-  hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  const generated_signature = hmac.digest("hex");
-
-  if (generated_signature === razorpay_signature) {
-    const order = new Order({
-      user: req.user,
-      cart: {
-        totalQty: cart.totalQty,
-        totalCost: cart.totalCost,
-        items: cart.items,
-      },
-      address: address,
-      paymentId: razorpay_payment_id,
-    });
-    let orders = await order.save();
-    // console.log(orders);
-    await cart.save();
-    await Cart.findByIdAndDelete(cart._id);
-    req.flash("success", "Successfully purchased");
-    req.session.cart = null;
-    console.log("successfull");
-    res.json({ status: "success" });
-  } else {
-    res.json({ status: "failure" });
-  }
-};
-
-
-module.exports.paylater = async (req, res) => {
-  if (!req.session.cart) {
-    return res.redirect("/cart");
-  }
-  const cart = await Cart.findById(req.session.cart._id);
-  const address = await Address.findOne({ user: req.user._id });
-  const order = new Order({
-    user: req.user,
-    cart: {
-      totalQty: cart.totalQty,
-      totalCost: cart.totalCost,
-      items: cart.items,
-    },
-    address: address,
-  });
-  let orders = await order.save();
-  // console.log(orders);
-  await cart.save();
-  await Cart.findByIdAndDelete(cart._id);
-  req.flash("success", "Successfully purchased");
-  req.session.cart = null;
-  res.redirect("/myOrders");
-};

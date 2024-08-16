@@ -7,15 +7,6 @@ const { isLoggedIn } = require("../middleware");
 // GET: view shopping cart contents
 router.get("/", CartController.renderCartPage);
 
-router.get("/checkout",isLoggedIn, CartController.checkoutForm);
-
-router.post("/order",CartController.createOrders);
-
-router.post("/checkout", isLoggedIn, CartController.paymentRoute);
-
-router.post("/payLater", isLoggedIn, CartController.paylater);
-
-
 // GET: add a product to the shopping cart when "Add to cart" button is pressed
 router.get("/:id", CartController.increaseItem);
 

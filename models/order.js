@@ -1,3 +1,4 @@
+const { required } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -34,7 +35,6 @@ const orderSchema = Schema({
         title: {
           type: String,
         },
-        
       },
     ],
   },
@@ -45,6 +45,10 @@ const orderSchema = Schema({
   paymentId: {
     type: String,
   },
+  Order_id: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -53,9 +57,8 @@ const orderSchema = Schema({
     type: Boolean,
     default: false,
   },
-  
-    // { strictPopulate: false },
 
+  // { strictPopulate: false },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

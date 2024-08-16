@@ -55,7 +55,7 @@ module.exports.adminDashboard = async (req, res) => {
   const medicinesCount = await Medicine.find().count();
   const appointmentCount = await Appointment.find().count();
 // res.send({users});
-  res.render("users/admin.ejs", {
+  res.render("admin/admin.ejs", {
     users,
     doctors,
     orders,
