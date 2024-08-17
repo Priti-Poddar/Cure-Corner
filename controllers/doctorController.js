@@ -20,6 +20,7 @@ module.exports.getAddDoctor = (req, res) => {
   res.render("doctors/add-doctor", { page: "Doctor" });
 };
 
+
 module.exports.postAddDoctor = async (req, res) => {
   // let { userId } = req.user._id;
   let url = req.file.path;

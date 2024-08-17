@@ -6,7 +6,6 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const HealthRecords = require("./models/healthRecord");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
@@ -30,6 +29,7 @@ const cartRouter = require("./routes/cart.js");
 const doctorRoutes = require("./routes/Doctors.js");
 const adminRoutes = require("./routes/adminRoute.js");
 const paymentRoute = require("./routes/paymentRoute.js");
+const policyRoute = require("./routes/policyRoute.js");
 const { isLoggedIn } = require("./middleware.js");
 // const { render } = require("ejs");
 
@@ -116,60 +116,16 @@ app.get("/myAcc", isLoggedIn, async (req, res) => {
   res.render("users/account.ejs", { doctors, page: "User" });
 });
 
-app.get("/terms", async (req, res) => {
-  res.render("policies/terms.ejs", { page: "policies" });
-});
-
-app.get("/refundPolicy", async (req, res) => {
-  res.render("policies/refundPolicy.ejs", { page: "policies" });
-});
-
-app.get("/shippingPolicy", async (req, res) => {
-  res.render("policies/shippingPolicy.ejs", { page: "policies" });
-});
-
-app.get("/returnsPolicy", async (req, res) => {
-  res.render("policies/returnsPolicy.ejs",{page:"policies"});
-});
-
-app.get("/privacyPolicy", async (req, res) => {
-  res.render("policies/privacyPolicy.ejs", { page: "policies" });
-});
-
-
-app.get("/healthRecords", async (req, res) => {
-  res.render("users/healthRecords.ejs", { page: "healthRecords" });
-});
 
 
 
-const multer = require("multer");
-const { storage } = require("./cloudConfig.js");
-const upload = multer({ storage });
 
 
+// const multer = require("multer");
+// const { storage } = require("./cloudConfig.js");
+// const upload = multer({ storage });
 
-app.post(
-  "/healthRecords",
-  upload.single("healthRecords[image]"),
-  async (req, res) => {
-    let url = req.file.path;
-    let filename = req.file.filename;
-    const { Pname, phone, message } = req.body;
-    console.log(req.body);
-    const newHealthRecord = new HealthRecords({
-      userId: req.user._id,
-      image: { url, filename },
-      Pname,
-      phone,
-      message,
-    });
 
-    let savedHealthRecord = await newHealthRecord.save();
-    req.flash("success", "Your prescription uploaded!");
-    res.redirect("/");
-  }
-);
 
 
 
@@ -181,6 +137,7 @@ app.use("/cart", cartRouter);
 app.use("/doctors", doctorRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payment", paymentRoute);
+app.use("/policy", policyRoute);
 
 app.all("*", (req, res, next) => {
   // res.send({ cart });
