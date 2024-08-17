@@ -157,7 +157,7 @@ module.exports.payload = async (req, res) => {
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: amount * 100,
-    redirectUrl: `${APP_BE_URL}/payment/redirect-url/${merchantTransactionId}`,
+    redirectUrl: `${OUR_APP}/payment/redirect-url/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
     mobileNumber: req.user.mobile,
     paymentInstrument: {
@@ -180,30 +180,7 @@ module.exports.payload = async (req, res) => {
 
 module.exports.payWithPhonepe = async (req, res) => {
   const payEndPoint = "/pg/v1/pay";
-  //   const merchantTransactionId = uniqid();
-  //   const userId = 123;
-  //   const { amount } = req.body;
-
-  //   const payload = {
-  //     merchantId: PHONEPE_MERCHANT_ID,
-  //     merchantTransactionId: merchantTransactionId,
-  //     merchantUserId: userId,
-  //     amount: amount * 100,
-  //     redirectUrl: `${APP_BE_URL}/redirect-url/${merchantTransactionId}`,
-  //     redirectMode: "REDIRECT",
-  //     mobileNumber: req.user.mobile,
-  //     paymentInstrument: {
-  //       type: "PAY_PAGE",
-  //     },
-  //   };
-
-  //   // SHA256(base64 encoded payload + “/pg/v1/pay” +
-  //   // salt key) + ### + salt index
-  //   const bufferObj = Buffer.from(JSON.stringify(payload), "utf8");
-  //   const base64EncodedPayload = bufferObj.toString("base64");
-  //   const xVerify =
-  //     sha256(base64EncodedPayload + payEndPoint + SALT_KEY) + "###" + SALT_INDEX;
-
+  
   const { xVerify, base64Payload } = req.body;
   console.log(xVerify);
 

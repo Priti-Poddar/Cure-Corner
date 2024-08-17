@@ -90,7 +90,7 @@ document.getElementById("phonepeBtn").addEventListener("click", async (e) => {
     body: JSON.stringify({
       xVerify: order.xVerify,
       base64Payload: order.base64Payload,
-    }),
+    }), 
   });
   const verifyResult = await verifyResponse.json();
   // console.log(verifyResult.url);
