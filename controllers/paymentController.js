@@ -15,6 +15,7 @@ const {
   SALT_KEY,
   PHONE_PE_HOST_URL,
   SALT_INDEX,
+  OUR_APP,
 } = process.env;
 
 const razorpay = new Razorpay({
@@ -63,8 +64,7 @@ module.exports.RazorpaymentRoute = async (req, res) => {
   if (!req.session.cart) {
     return res.redirect("/cart");
   }
-  const cart = await Cart.findById(req.session.cart._id);
-  const address = await Address.findOne({ user: req.user._id });
+  const merchantTransactionId = uniqid();
 
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
     req.body;
@@ -75,27 +75,46 @@ module.exports.RazorpaymentRoute = async (req, res) => {
   const generated_signature = hmac.digest("hex");
 
   if (generated_signature === razorpay_signature) {
-    const order = new Order({
-      user: req.user,
-      cart: {
-        totalQty: cart.totalQty,
-        totalCost: cart.totalCost,
-        items: cart.items,
-      },
-      address: address,
-      paymentId: razorpay_payment_id,
+    // console.log("successfull");
+    // console.log(merchantTransactionId);
+    res.json({
+      status: "success",
+      merchantTransactionId: merchantTransactionId,
     });
-    let orders = await order.save();
-    // console.log(orders);
-    await cart.save();
-    await Cart.findByIdAndDelete(cart._id);
-    req.flash("success", "Successfully purchased");
-    req.session.cart = null;
-    console.log("successfull");
-    res.json({ status: "success" });
   } else {
     res.json({ status: "failure" });
   }
+};
+
+module.exports.razorpayRedirect = async (req, res) => {
+  const { paymentId } = req.params;
+  console.log(paymentId);
+  const cart = await Cart.findById(req.session.cart._id);
+  const address = await Address.findOne({ user: req.user._id });
+
+  const order = new Order({
+    user: req.user,
+    cart: {
+      totalQty: cart.totalQty,
+      totalCost: cart.totalCost,
+      items: cart.items,
+    },
+    paymentId: paymentId,
+    Order_id: orderid.generate(),
+    createdAt: Date().now,
+    address: address,
+  });
+  let orders = await order.save();
+  // console.log(orders);
+  await cart.save();
+  await Cart.findByIdAndDelete(cart._id);
+  // req.flash("success", "Successfully purchased");
+  req.session.cart = null;
+
+  res.render("payment/success.ejs", {
+    orders,
+    page: "razorPay",
+  });
 };
 
 module.exports.paylater = async (req, res) => {
@@ -111,6 +130,7 @@ module.exports.paylater = async (req, res) => {
       totalCost: cart.totalCost,
       items: cart.items,
     },
+    createdAt: Date().now,
     Order_id: orderid.generate(),
     address: address,
   });
@@ -118,9 +138,12 @@ module.exports.paylater = async (req, res) => {
   // console.log(orders);
   await cart.save();
   await Cart.findByIdAndDelete(cart._id);
-  req.flash("success", "Successfully purchased");
+  // req.flash("success", "Successfully purchased");
   req.session.cart = null;
-  res.redirect("/myOrders");
+  res.render("payment/success.ejs", {
+    orders,
+    page: "cash",
+  });
 };
 
 module.exports.payload = async (req, res) => {
@@ -134,7 +157,7 @@ module.exports.payload = async (req, res) => {
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: amount * 100,
-    redirectUrl: `${APP_BE_URL}/payment/redirect-url/${merchantTransactionId}`,
+    redirectUrl: `${OUR_APP}/payment/redirect-url/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
     mobileNumber: req.user.mobile,
     paymentInstrument: {
@@ -181,9 +204,9 @@ module.exports.payWithPhonepe = async (req, res) => {
   //   const xVerify =
   //     sha256(base64EncodedPayload + payEndPoint + SALT_KEY) + "###" + SALT_INDEX;
 
-    const { xVerify, base64Payload } = req.body;
-    console.log(xVerify);
-    
+  const { xVerify, base64Payload } = req.body;
+  console.log(xVerify);
+
   const options = {
     method: "post",
     url: `${PHONE_PE_HOST_URL}${payEndPoint}`,
@@ -201,13 +224,13 @@ module.exports.payWithPhonepe = async (req, res) => {
     .then(async function (response) {
       // console.log(response.data);
       const url = response.data.data.instrumentResponse.redirectInfo.url;
-        // console.log(url);
-        const status = response.data.success;
-      res.json({ status: status, url:url });
+      // console.log(url);
+      const status = response.data.success;
+      res.json({ status: status, url: url });
     })
     .catch(function (error) {
       console.error(error);
-        res.json({ status: "failure" });
+      res.json({ status: "failure" });
     });
 };
 
@@ -236,31 +259,36 @@ module.exports.redirectPage = (req, res) => {
     };
     axios
       .request(options)
-      .then( async function (response) {
+      .then(async function (response) {
         const paymentDetails = response.data;
         // console.log(paymentDetails);
-          if (!req.session.cart) {
-            return res.redirect("/cart");
-          }
-          const cart = await Cart.findById(req.session.cart._id);
-          const address = await Address.findOne({ user: req.user._id });
-          const order = new Order({
-            user: req.user,
-            cart: {
-              totalQty: cart.totalQty,
-              totalCost: cart.totalCost,
-              items: cart.items,
-            },
-            paymentId: paymentDetails.data.transactionId,
-            Order_id: orderid.generate(),
-            address: address,
-          });
-          let orders = await order.save();
-          // console.log(orders);
-          await cart.save();
-          // await Cart.findByIdAndDelete(cart._id);
-          // req.session.cart = null;
-        res.render("payment/success.ejs", { paymentDetails, orders });
+        if (!req.session.cart) {
+          return res.redirect("/cart");
+        }
+        const cart = await Cart.findById(req.session.cart._id);
+        const address = await Address.findOne({ user: req.user._id });
+        const order = new Order({
+          user: req.user,
+          cart: {
+            totalQty: cart.totalQty,
+            totalCost: cart.totalCost,
+            items: cart.items,
+          },
+          paymentId: paymentDetails.data.transactionId,
+          Order_id: orderid.generate(),
+          createdAt: Date().now,
+          address: address,
+        });
+        let orders = await order.save();
+        // console.log(orders);
+        await cart.save();
+        await Cart.findByIdAndDelete(cart._id);
+        req.session.cart = null;
+        res.render("payment/success.ejs", {
+          paymentDetails,
+          orders,
+          page: "phonePe",
+        });
       })
       .catch(function (error) {
         console.error(error);

@@ -10,7 +10,8 @@
         <div class="navbar-nav">
           <a class="address" href="/">DIPTI MEDICAL</a>
         </div>
-        <% if(page != "Home") { %>
+        <% if(page == "Home" || page == "razorPay" || page == "phonePe" || page == "cash") { %>
+          <%} else{ %>
         <a href="/search" class="small-search-bar-link" >
           <div class="small-search-bar">
             <i class="fa-solid fa-magnifying-glass fa-lg"></i>
@@ -105,7 +106,7 @@
     <% } %>
     </div>
   </nav>
-  <% if(page == "policies") { %> <%} else{ %>
+  <% if(page == "policies"|| page == "razorPay" || page == "phonePe" || page == "cash") { %> <%} else{ %>
   <nav class="navbar-3 navbar-expand-md bg-body-light sticky-top">
     <div class="navbar-nav-3">
       <a class="nav-link" href="/medicines"><p>Our Products</p></a>&nbsp;&nbsp;

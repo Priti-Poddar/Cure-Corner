@@ -1,11 +1,10 @@
 <% layout("/layouts/boilerplate") %>
+<script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
 <%- include("../includes/smNavBar.ejs")%>
 <%- include("../includes/navbar.ejs")%>
 
 
-<div class="terms" >
-
-
+    <div class="terms" >
 <h3>Shipping Policy</h3><br>
 <p>The orders for the user are shipped through registered domestic courier companies and/or 
 speed post only. Order are shipped within 2 to 5 days from the date of the order and/or 
@@ -17,8 +16,15 @@ services will be confirmed on your email ID as specified at the time of registra
 are any shipping cost(s) levied by the seller or the Platform Owner (as the case be), the 
 same is not refundable. For any issues in utilizing our services you may contact our 
 helpdesk on 8001506000.</p>
-
-
 </div>
 
-<%- include("../includes/footer.ejs") %>
+
+<%- include("../includes/footer.ejs")%>
+
+<!-- <script>
+    const burst = new mojs.Burst();
+
+document.addEventListener( "DOMContentLoaded", function (e) {
+  burst.replay();
+});
+</script> -->

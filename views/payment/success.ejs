@@ -1,93 +1,161 @@
 <% layout("/layouts/boilerplate") %>
-<%- include("../includes/flash.ejs")%>
+<%- include("../includes/navbar.ejs")%>
 
-<div style="display: flex;">
-<div style="background-color: #03c04a ; width: 80%;">
-    <div class="thankYouIcon">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/021/115/771/small_2x/white-circle-free-png.png"
-     style="background-color: transparent; width: 12rem; height: 12rem;"> 
-     <i class="fa-solid fa-check fa-2xl position-relative" style="color: #03c04a;transform: scale(3); top: -6rem;"></i>
-    <div class="thankYou">
-     <p>THANK YOU!</p>
-    <H3>YOUR ORDER IS CONFIRMED</H3>
-    </div>
+
+<div style="display: flex">
+  <div style="background-color: #03c04a; width: 80%">
+    <div class="thankYouIcon fadeInUpCss">
+      <img
+        src="https://static.vecteezy.com/system/resources/thumbnails/021/115/771/small_2x/white-circle-free-png.png"
+        style="background-color: transparent; width: 12rem; height: 12rem"
+      />
+      <i
+        class="fa-solid fa-check fa-2xl position-relative"
+        style="color: #03c04a; transform: scale(3); top: -6rem"
+      ></i>
+      <div class="thankYou">
+        <p>THANK YOU!</p>
+        <H3>YOUR ORDER IS CONFIRMED</H3>
+      </div>
     </div>
 
-<div class="container px-1 px-md-4 py-5 mx-auto">
-    <div class="cardOrd">
-        <div class="row d-flex justify-content-between px-3 top">
-            <div class="d-flex" style="display: flex; justify-content: space-between;">
-                <h5>ORDER <span class="text-primary font-weight-bold">#Y34XDHR</span></h5>
-                <p><%=Date().toString().split(" ").slice(1,4).join(" ")%></p>
-            </div>
-            
+    <div class="container px-1 px-md-4 py-5 mx-auto">
+      <div class="cardOrd fadeInUpCss">
+        <div class="row d-flex justify-content-between px-3 topCard">
+          <div class="d-flex">
+            <h5>
+              ORDER
+              <span class="text-primary font-weight-bold"
+                >#<%=orders.Order_id%></span
+              >
+            </h5>
+            <p>Ordered at <span id="p-date"> </span></p>
+          </div>
         </div>
         <!-- Add class 'active' to progress -->
         <div class="row d-flex justify-content-center">
-            <div class="col-12">
+          <div class="col-12">
             <ul id="progressbar" class="text-center">
-                <li class="active step0">ORDER CONFIRMED</li>
-                <li class="active step0">SHIPPED</li>
-                <li class="active step0">DISPATCHED</li>
-                <li class="step0">DELIVERED</li>
+              <li class="active step0">ORDER CONFIRMED</li>
+              <li class="step0">SHIPPED</li>
+              <li class="step0">DISPATCHED</li>
+              <li class="step0">DELIVERED</li>
             </ul>
-            </div>
+          </div>
         </div>
-<div class="d-flex" style="margin-left: 1rem;">
-                <p class="mb-0">Expected Arrival <span>01/12/19</span> <a href="/myOrders" style="margin-left: 1rem;">Go To Orders</a></p>
-            </div>
-
+        <div class="d-flex" style="margin-left: 1rem">
+          <p class="mb-0">
+            Expected Arrival <span id="m-date"></span>
+            <a href="/myOrders" style="margin-left: 1rem">Go To Orders</a>
+          </p>
+        </div>
+      </div>
     </div>
-</div>
-    
+  </div>
+
+  <div style="width: 30%; font-family: Open Sans">
+    <div class="orderDetail">
+      <div style="margin-top: 0.8rem; margin-left: 1rem">
+        <p style="font-size: 16px; margin-bottom: -0.1rem">ORDER DETAIL</p>
+        <p style="font-size: 20px">#<%=orders.Order_id%></p>
+      </div>
+      <% if(page === "razorPay") {%>
+      <p id="paidWithPhonepe">Paid with RazorPay</p>
+      <% }else if(page === "phonePe"){ %>
+      <p id="paidWithPhonepe">Paid with PhonePe</p>
+      <%} else { %>
+      <p id="paidWithPhonepe">Pay On Delivery</p>
+      <% }%>
+    </div>
+    <div id="borderBtm">
+      <div class="headDiv">
+        <div id="smHead">
+          <i class="fa-solid fa-truck fa-xl"></i>
+          <p id="smHeadTitle">DELIVERY ADDRESS</p>
+        </div>
+        <a href="/changeAddress">Change Details</a>
+      </div>
+      <hr style="background-color: #eceff1" />
+      <p style="margin-left: 1rem"><%=orders.address.location%></p>
+    </div>
+    <div id="borderBtm">
+      <div class="headDiv">
+        <div id="smHead">
+          <i class="fa-solid fa-file-invoice fa-xl"></i>
+          <p id="smHeadTitle">PAYMENT DETAILS</p>
+        </div>
+      </div>
+      <hr style="background-color: #eceff1" />
+      <div style="margin: 0 1rem">
+        <% if(page === "razorPay") {%>
+        <p>Payment Id: <%=orders.paymentId%></p>
+        <% }else if(page === "phonePe"){ %>
+        <p>Transaction Id: <%=orders.paymentId%></p>
+        <p>Using <%= (paymentDetails.data.paymentInstrument.cardType) %></p>
+        <%} else { %>
+        <p>Pay On Delivery</p>
+        <% }%>
+      </div>
+    </div>
+    <div id="borderBtm">
+      <div class="headDiv">
+        <div id="smHead">
+          <i class="fa-regular fa-address-book fa-xl"></i>
+          <p id="smHeadTitle">CONTACT DETAILS</p>
+        </div>
+      </div>
+      <hr style="background-color: #eceff1" />
+      <div style="margin: 0 1rem">
+        <p><%=orders.user.email%></p>
+        <!-- <p><%=orders.user.mobile%></p> -->
+      </div>
+    </div>
+    <div class="summaryDiv">
+      <div class="orderSmry">ORDER SUMMARY(<%=orders.cart.totalQty%>)</div>
+      <div class="smrySmDiv">
+        <p>Sub Total</p>
+        <p>&#8377; <%= (orders.cart.totalCost).toLocaleString("en-IN") %></p>
+      </div>
+      <div class="smrySmDiv">
+        <p>Delivery</p>
+        <% if(orders.cart.totalCost < 299){ %>
+        <p>&#8377; 50</p>
+        <%}else{%>
+        <p>&#8377; 0</p>
+        <%}%>
+      </div>
+
+      <hr style="background-color: #eceff1; margin-top: -0.2rem" />
+      <div class="headDiv" style="margin: 0 1rem; font-weight: bold">
+        <p>Total</p>
+        <%if(page === "phonePe"){ %>
+        <p>
+          &#8377; <%=(paymentDetails.data.amount /
+          100).toLocaleString("en-IN")%>
+        </p>
+        <%} else { %> 
+            <% if(orders.cart.totalCost <299) {%>
+
+            <p>&#8377;<%= (orders.cart.totalCost+50).toLocaleString("en-IN") %></p>
+            <%} else { %>
+            <p>&#8377;<%= (orders.cart.totalCost+0).toLocaleString("en-IN") %></p>
+
+            <% }%> 
+        <% }%>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div style="width: 30%;">
-<!-- <p><%= paymentDetails.data.responseCode %></p> -->
+<script>
+  var dd = "<%= (orders.createdAt).getDate()%>"; // get the date padStart => 01
+  var mm = "<%= ((orders.createdAt).getMonth() ) + 1%>"; //January is 0!
+  var yyyy = "<%= (orders.createdAt).getFullYear()%>";
+  var fullDate = dd + "/" + mm + "/" + yyyy;
+  document.getElementById("p-date").innerHTML = fullDate;
 
-<div style="background-color: rgb(235, 233, 233); display: flex;">
-    <span><p>ORDER DETAIL</p>
-    <p><%=orders.Order_id%></p>
-    <!-- <p><%=orders%></p> -->
-    </span>
-    <span>Paid with PhonePe</span>
-</div>
-<div>
-    <h5>PAYMENT DETAILS</h5>
-    <hr>
-    <p>Transaction Id: <%=orders.Order_id%></p>
-    <p>Using <%= paymentDetails.data.paymentInstrument.cardType %></p>
-    
-</div>
-<div>
-    <h5>DELIVERY ADDRESS</h5>
-    <hr>
-    <p><%=orders.address.location%></p>
-</div>
-<div>
-    <h5>CONTACT DETAILS</h5>
-    <hr>
-    <p><%=orders.user.email%></p>
-    <!-- <p><%=orders.user.mobile%></p> -->
+  var someFormattedDate =
+    "<%=((orders.createdAt).getDate() + 2)%>" + "/" + mm + "/" + yyyy;
 
-</div>
-<div>
-    <div>ORDER SUMMARY(<%=orders.cart.totalQty%>)</div>
-    <p></p>
-    <p>Sub Total</p> <p>&#8377; <%= (orders.cart.totalCost).toLocaleString("en-IN") %></p>
-    <p>Delivery </p>
-    <% if(orders.cart.totalCost < 299){ %> 
-    <p>&#8377; 50</p>
-     <%}else{%>
-    <p>&#8377; 0</p>
-    <%}%>
-    <hr>
-    <p>Total</p> <p><%=(paymentDetails.data.amount / 100).toLocaleString("en-IN")%></p>
-</div>
-</div>
-</div>
-
-
-
-<!-- <- include("../includes/footer.ejs")%> -->
-
+  document.getElementById("m-date").innerHTML = someFormattedDate;
+</script>

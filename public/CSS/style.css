@@ -193,7 +193,8 @@ body {
 }
 
 .footer2 {
-  margin: 3rem;
+  width: 88%;
+  margin:3rem auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -203,10 +204,12 @@ body {
 .f-info-socials {
   margin-top: -2rem !important;
 }
-
+ 
 #f-table {
   font-family: "Open sans";
   font-size: 15px;
+  width: 90%;
+  margin: auto;
 }
 
 #f-table td a:hover {

@@ -14,7 +14,14 @@ router.post("/order",isLoggedIn, PaymentController.createOrders);
 
 router.post("/payWrazorpe", isLoggedIn, PaymentController.RazorpaymentRoute);
 
-router.post("/payLater", isLoggedIn, PaymentController.paylater);
+router.get(
+  "/razorpay-redirect/:paymentId",
+  isLoggedIn,
+  PaymentController.razorpayRedirect
+);
+
+
+router.get("/payLater", isLoggedIn, PaymentController.paylater);
 
 router.post("/payload", isLoggedIn, PaymentController.payload);
 

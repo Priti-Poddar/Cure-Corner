@@ -132,9 +132,16 @@ app.get("/returnsPolicy", async (req, res) => {
   res.render("policies/returnsPolicy.ejs",{page:"policies"});
 });
 
+app.get("/privacyPolicy", async (req, res) => {
+  res.render("policies/privacyPolicy.ejs", { page: "policies" });
+});
+
+
 app.get("/healthRecords", async (req, res) => {
   res.render("users/healthRecords.ejs", { page: "healthRecords" });
 });
+
+
 
 const multer = require("multer");
 const { storage } = require("./cloudConfig.js");

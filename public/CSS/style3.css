@@ -6,6 +6,37 @@
     background-repeat: no-repeat;
 } */
 
+.payPageDiv1{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    margin: 4rem auto;
+    font-family: Open Sans;
+}
+
+.payPageDiv2{
+      border: 1px solid rgb(189, 187, 187);
+      border-radius: 15px;
+      width: 100%;
+      margin-right: 2rem;
+    
+}
+
+.hrLine{
+  width: 95%; margin: 0.2rem auto; margin-top: -0.2rem
+}
+
+#h5Line{
+  align-self: center; font-weight: bold;
+}
+
+.subTotal{
+        border: 1px solid rgb(189, 187, 187);
+        border-radius: 15px;
+        padding: 1rem;
+      
+}
+
 .PhonePe-Logo {
   width: 3.5rem;
   height: 3.5rem;
@@ -24,11 +55,14 @@
 .payBtn {
   color: #ef5a6f !important;
   font-weight: bold !important;
+  margin-right: 1rem;
 }
 
 .payBtn:click {
   border: none;
 }
+
+
 
 .thankYouIcon {
   /* border: 1px solid #455a64; */
@@ -55,12 +89,13 @@
   z-index: 0;
   background-color: #eceff1;
   padding-bottom: 20px;
-
   margin-bottom: 90px;
   border-radius: 10px;
+  width: 80%;
+  margin: auto;
 }
 
-.top {
+.topCard {
   padding-top: 40px;
   padding-left: 13% !important;
   padding-right: 13% !important;
@@ -158,4 +193,65 @@
 #progressbar li.active:before {
   font-family: FontAwesome;
   content: "\f00c";
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+.fadeInUpCss {
+  animation: 1.5s fadeInUp;
+}
+
+.d-flex{
+  display: flex; justify-content: space-between;
+}
+
+.orderDetail{
+  display: flex;
+      justify-content: space-between;
+        background-color: #eceff1;
+        align-items: center;
+}
+
+.headDiv {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  margin-bottom: -1rem;
+}
+
+#paidWithPhonepe{
+  font-size: 15px; margin-top: 0.8rem; margin-right: 1rem
+}
+
+#smHead{
+  display: flex; margin-top: 0.8rem
+}
+
+#smHeadTitle{
+  margin-left: 1rem; margin-top: -0.7rem;
+}
+
+#borderBtm{
+  border-bottom: 3px solid #eceff1;
+}
+
+.summaryDiv{
+  background-color: #eceff1; border: 1px solid #eceff1;
+}
+
+.orderSmry{
+  background-color: #fff; margin: 1rem .5rem;  padding: .5rem;
+}
+
+.smrySmDiv {
+  display: flex; justify-content: space-between; margin: 0 1rem;
 }
