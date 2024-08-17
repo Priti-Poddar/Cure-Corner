@@ -157,7 +157,7 @@ module.exports.payload = async (req, res) => {
     merchantTransactionId: merchantTransactionId,
     merchantUserId: userId,
     amount: amount * 100,
-    redirectUrl: `${OUR_APP}/payment/redirect-url/${merchantTransactionId}`,
+    redirectUrl: `${APP_BE_URL}/payment/redirect-url/${merchantTransactionId}`,
     redirectMode: "REDIRECT",
     mobileNumber: req.user.mobile,
     paymentInstrument: {
