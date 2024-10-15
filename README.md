@@ -1,12 +1,11 @@
 # Cure-Corner
-<h3>Introduction</h3>
-<hr>
+# Introduction
 <div>
 <p>Cure-Corner is a comprehensive web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js) that allows users to book doctor’s appointments and order medicines with ease.</p>
   <p>The application is deployed to Render and can be accessed through the following link:</p>
   <a href="diptimedical.com">Cure-Corner</a>
 </div>
-<h3>Features </h3>
+# <h3>Features</h3>
 <hr>
 <div>
   <ul>
@@ -18,7 +17,7 @@
 Feel free to explore, contribute, or use this as a reference for your own projects!
 </div>
 
-<h3>Technology</h3>
+# Technology
 <hr>
 <div>
 The website is built with:<br>
