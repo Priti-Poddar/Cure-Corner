@@ -2,11 +2,11 @@
 ## Table of contents
 <div>
     <ul>
-     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#introduction">Introduction</a></li>
-     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#demo">Demo</a></li>
-     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#run">Run</a></li>
-     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#technology">Technology</a></li>
-     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#features">Features</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/tree/main?tab=readme-ov-file#introduction">Introduction</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/tree/main?tab=readme-ov-file#demo">Demo</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/tree/main?tab=readme-ov-file#run">Run</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/tree/main?tab=readme-ov-file#technology">Technology</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/tree/main?tab=readme-ov-file#features">Features</a></li>
     </ul>
 </div>
 
