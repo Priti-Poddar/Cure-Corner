@@ -13,13 +13,17 @@
 # Introduction
 <div>
 <p>Cure-Corner is a comprehensive web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js) that allows users to book doctor’s appointments and order medicines with ease.</p>
-  <p>The application is deployed to Render and can be accessed through the following link:</p>
-  <a href="diptimedical.com">Cure-Corner</a>
 </div>
 
 # Demo
 <div>
-  <img src="https://github.com/user-attachments/assets/96e51eb7-7e51-45b6-a332-fa9ee28a6ef4">
+  <img src="https://github.com/user-attachments/assets/fadef777-40f0-4d18-927d-dcdc1f09013f">
+  <img src="https://github.com/user-attachments/assets/77d0bceb-886d-43e2-be02-91c5ce06a138">
+
+  <p>The application is deployed to Render and can be accessed through the following link:</p>
+  <a href="diptimedical.com">Cure-Corner</a>
+
+<p>In order to access the admin panel on "/admin" you need to provide the admin email and password.</p>
 </div>
 
 # Run
@@ -46,7 +50,8 @@
 # Technology
 
 <div>
-The website is built with:<br>
+<p>The website is built with:</p>
+  
 <ul>
 <li>Node.js version 20.11.1</li>
 <li>MongoDB version 8.3.2</li>
@@ -88,3 +93,5 @@ The website is built with:<br>
     
 Feel free to explore, contribute, or use this as a reference for your own projects!
 </div>
+
+
