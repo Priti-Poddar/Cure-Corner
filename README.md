@@ -2,11 +2,11 @@
 ## Table of contents
 <div>
   <ul>
-    <li><a href="# Introduction">Introduction</a></li>
-    <li><a href="# Demo">Demo</a></li>
-    <li><a href="# Run">Run</a></li>
-    <li><a href="# Technology">Technology</a></li>
-    <li><a href="# Features">Features</a></li>
+    <li><a href="## Introduction">Introduction</a></li>
+    <li><a href="## Demo">Demo</a></li>
+    <li><a href="## Run">Run</a></li>
+    <li><a href="## Technology">Technology</a></li>
+    <li><a href="## Features">Features</a></li>
   </ul>
 </div>
 
@@ -17,14 +17,14 @@
 
 ## Demo
 <div>
+  <br>
   <p>Home Page</p>
-  <br>
   <img src="https://github.com/user-attachments/assets/df097987-0b97-4779-8c22-46e953316577">
-<br>
+<br><br>
   <p>Find Doctors Page </p>
-  <br>
+
   <img src="https://github.com/user-attachments/assets/77d0bceb-886d-43e2-be02-91c5ce06a138">
-<br>
+<br>  <br>
   <p>The application is deployed to Render and can be accessed through the following link:</p>
   <a href="diptimedical.com">Cure-Corner</a>
 
