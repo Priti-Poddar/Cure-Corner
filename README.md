@@ -1,10 +1,14 @@
 # Cure-Corner
 ## Table of contents
-     <a href="https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#introduction">Introduction</a>
-     [Demo](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#demo))
-     [Run](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#run)
-     [Technology](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#technology)
-     [Features](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#features)
+<div>
+    <ul>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#introduction">Introduction</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#demo">Demo</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#run">Run</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#technology">Technology</a></li>
+     <li><a href="https://github.com/Priti-Poddar/Cure-Corner/blob/main/README.md#features">Features</a></li>
+    </ul>
+</div>
 
 ## Introduction
 <div>
