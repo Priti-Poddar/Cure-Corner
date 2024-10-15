@@ -1,5 +1,5 @@
 # Cure-Corner
-# Table of contents
+## Table of contents
 <div>
   <ul>
     <li><a href="# Introduction">Introduction</a></li>
@@ -10,23 +10,28 @@
   </ul>
 </div>
 
-# Introduction
+## Introduction
 <div>
 <p>Cure-Corner is a comprehensive web application built using the MERN stack (MongoDB, Express.js, React.js, and Node.js) that allows users to book doctor’s appointments and order medicines with ease.</p>
 </div>
 
-# Demo
+## Demo
 <div>
-  <img src="https://github.com/user-attachments/assets/fadef777-40f0-4d18-927d-dcdc1f09013f">
+  <p>Home Page</p>
+  <br>
+  <img src="https://github.com/user-attachments/assets/df097987-0b97-4779-8c22-46e953316577">
+<br>
+  <p>Find Doctors Page </p>
+  <br>
   <img src="https://github.com/user-attachments/assets/77d0bceb-886d-43e2-be02-91c5ce06a138">
-
+<br>
   <p>The application is deployed to Render and can be accessed through the following link:</p>
   <a href="diptimedical.com">Cure-Corner</a>
 
 <p>In order to access the admin panel on "/admin" you need to provide the admin email and password.</p>
 </div>
 
-# Run
+## Run
 <div>
 <p>To run this application, you have to set your own environmental variables. For security reasons, some variables have been hidden from view and used as environmental variables with the help of dotenv package. Below are the variables that you need to set in order to run the application:</p>
 
@@ -47,7 +52,7 @@
 <p>Now you can run "npm start" in the terminal and the application should work.</p>
 </div>
 
-# Technology
+## Technology
 
 <div>
 <p>The website is built with:</p>
@@ -67,7 +72,7 @@
 </ul>
 </div>
 
-# Features
+## Features
 <div>
    <p>Users can do the following:</p>
  <ul>
