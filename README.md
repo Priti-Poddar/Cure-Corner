@@ -19,7 +19,7 @@
 
 # Demo
 <div>
-  ![Screenshot 2024-10-15 175431](https://github.com/user-attachments/assets/96e51eb7-7e51-45b6-a332-fa9ee28a6ef4)
+  <img src="https://github.com/user-attachments/assets/96e51eb7-7e51-45b6-a332-fa9ee28a6ef4">
 </div>
 
 # Run
