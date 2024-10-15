@@ -1,6 +1,6 @@
 # Cure-Corner
 ## Table of contents
-     [Introduction](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#introduction)
+     <a href="https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#introduction">Introduction</a>
      [Demo](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#demo))
      [Run](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#run)
      [Technology](https://github.com/Priti-Poddar/Cure-Corner/edit/main/README.md#technology)
