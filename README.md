@@ -3,6 +3,10 @@
 <div>
   <ul>
     <li><a href="# Introduction">Introduction</a></li>
+    <li><a href="# Demo">Demo</a></li>
+    <li><a href="# Run">Run</a></li>
+    <li><a href="# Technology">Technology</a></li>
+    <li><a href="# Features">Features</a></li>
   </ul>
 </div>
 
@@ -15,7 +19,7 @@
 
 # Demo
 <div>
-  <img src="![Screenshot 2024-10-15 175431](https://github.com/user-attachments/assets/96e51eb7-7e51-45b6-a332-fa9ee28a6ef4)">
+  ![Screenshot 2024-10-15 175431](https://github.com/user-attachments/assets/96e51eb7-7e51-45b6-a332-fa9ee28a6ef4)
 </div>
 
 # Run
